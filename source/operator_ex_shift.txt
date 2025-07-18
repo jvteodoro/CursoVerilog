@@ -1,0 +1,15 @@
+Right Shift
+a: 1000
+b: 0010
+c: 1110
+d: 0010
+Left Shift with reg values
+a: 1000
+b: 1000
+c: 1000
+d: 1000
+Left shift with wire values
+a: 1000
+b: 0000
+c: 0000
+d: 0000

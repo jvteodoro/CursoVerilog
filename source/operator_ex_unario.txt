@@ -1,0 +1,7 @@
+val: -4
+plus_val: -4
+minus_val:  4
+
+val2:  4
+plus_val2:  4
+minus_val2: -4

@@ -1,0 +1,5 @@
+w1: dec 12, bin 1100
+w2: dec  3, bin 0011
+signed_w1: dec -4, bin 1100
+Sum: 15, 1111
+Signed sum: -1, 1111

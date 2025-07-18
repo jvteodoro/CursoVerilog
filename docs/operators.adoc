@@ -1,0 +1,235 @@
+:sourcedir: ../source
+[cols="1,1"]
+|===
+|Função | Operador
+| Negação Lógica | !
+
+| Or Lógico | \|\|
+
+| And Lógico | &&
+
+| Igualdade Lógica | ==
+
+| Inegualdade Lógica | !=
+
+|===
+
+== Precedência de Operadores
+
+A precedência de operadores é descrita pela tabela a seguir, onde a maior as linhas estão organizadas da maior precedência para a menor
+
+[cols="1"]
+|===
+|+, -, !, ~, &, ~&, |, ~|, ^, ~^, ^~
+| **
+| * / %
+| + - 
+| << >> <<< >>>
+| < <= > >=
+| == != === !==
+| &
+|^ ^~ ~^
+| \|
+| &&
+| \|\|
+| ?: (conditional operator)
+| {} {{}}
+|===
+
+Com exceção do operador condicional, todoso os operadores serão associados da esquerda para direita, i.e operadores com a mesma precedência serão avaliados da esquerda para a direita.
+
+== Ordem de evaluation
+Uma expressão poder ter seu resultado conhecido sem que todas as partes sejam avaliadas, o que recebe o nome de "short-circuiting". Como por exemplo
+
+reg reg1, reg2, reg3, reg4;
+value = reg4 & (reg2 & (reg1 | reg4) | reg1)
+
+Caso reg4 seja zero, a expressão a sua direita não precisará de ser avaliada pois já sabemos que o resultado será zero
+
+[cols="1"]
+|===
+| +-!~&
+|===
+
+== Signed e Unsigned
+É necessário tomar cuidado com a escolha dos tipos de dados usados pois o verilog interpreta de forma diferente o sinal dos valores colocados em tipos diferentes.
+
+Os valores de um reg ou um net serão tratados como unsigned a não ser que a declaração apareça com 'signed'. Já os valores passados para integer, real ou realtime serão tratados como signed a não ser que a declaração ocorra com 'unsigned'.
+
+[source,verilog]
+----
+include::{sourcedir}/operator_ex_sign_unsign.v[]
+----
+
+Com isso, temos a saida
+[source,txt]
+----
+include::{sourcedir}/operator_ex_sign_unsign.txt[]
+----
+
+== Operadores Aritméticos
+[cols="1,1"]
+|===
+| a+b | soma 'a' e 'b' 
+| a-b | subtrai 'a' e 'b
+| a*b | multiplica 'a' e 'b'
+| a/b | divide 'a' e 'b'
+| a%b | 'a' modulo 'b'
+| a**b| 'a' elevado 'a' 'b'
+|===
+
+Em uma operação de divisão ou modulo, caso o segundo operando for zero, então o valor da expressão será 'x'. O resultado da operação modulo terá o sinal do primeiro operando.
+
+Teremos valores não especificados no caso do operador de potência receber o primeiro operando igual a zero e o segundo um operando não positivo ou caso o primeiro operando seja negativo e o segundo operando um valor não inteiro.
+
+== Operadores Bitwise
+Os operadores bitwise são &, |, ^, ~, ^~, ~^ . Com exceção do operador ~, todos os outros requerem dois operandos. O operador ~ (not) é um operador bitwise unário.
+
+=== Tabelas verdade
+==== &
+[cols="1,1,1,1,1"]
+|===
+| & | 0 | 1 | x | z
+| 0 | 0 | 0 | 0 | 0
+| 1 | 0 | 1 | x | z
+| x | 0 | x | x | x
+| z | 0 | x | x | x
+|=== 
+==== |
+[cols="1,1,1,1,1"]
+|===
+| \| | 0 | 1 | x | z
+|0   | 0 | 1 | x | z
+| 1  | 1 | 1 | 1 | 1
+| x  | x | 1 | x | x
+| z  | x | 1 | x | x
+|=== 
+==== ^
+[cols="1,1,1,1,1"]
+|===
+| ^ | 0 | 1 | x | z
+| 0 | 0 | 1 | x | x
+| 1 | 1 | 0 | x | x
+| x | x | x | x | x
+| z | x | x | x | x
+|=== 
+==== ~
+[cols="1,1"]
+|===
+| ~ |    
+| 0 | 1 
+| 1 | 0
+| x | x
+| z | x
+|===
+==== ~^ ou ^~
+[cols="1,1,1"]
+|===
+| ~^, ^~ | 0 | 1 | x | z
+| 0      | 1 | 0 | x | x
+| 1      | 0 | 1 | x | x
+| x      | x | x | x | x
+| z      | x | x | x | x
+|=== 
+
+
+== Operadores Lógicos
+
+Temos três operadores lógicos, sendo um operador unário. Os operadores lógicos and (&&) e or (||) são conectivos lógicos. O resultado de uma comparação lógica deverá ter o valor verdadeiro (1), falso (0) ou desconhecido (x). 
+
+== Operadores Unários
+
+[cols="1,1"]
+|===
+|+m | Unário m positivo
+|-m | Unário m negativo
+|===
+
+Os operadores unários + e - retornarm respectivamente o mesmo valor e o valor multiplicado por -1.
+
+[source,verilog]
+----
+include::{sourcedir}/operator_ex_unario.v[]
+----
+Que retorna a saída 
+[source,txt]
+----
+include::{sourcedir}/operator_ex_unario.txt[]
+----
+=== Operadores unários de redução
+Os operadore de redução realizam operações lógicas bitwise em apenas um operando. A execução pega o primeiro bit do operando e realiza a operação lógica em questão com o segundo bit. Então esse resultado é usado para fazer a mesma operação com o pŕoximo bit até que todos os bits tenham sido usados.
+
+[cols="1,1"]
+|===
+| Operador | função 
+| & | 'and' de redução
+| ~& | 'nand' de redução
+| \| | 'or' de redução
+| ^ | 'xor' de redução
+| ~\| | 'nor' de redução
+| ~^ | 'xnor' de redução
+|===
+
+A tabela verdade desses operadores seguem a tabela de suas respectivas operações lógicas
+
+Podemos ver a saida de cada um com os seguintes exemplos:
+[source,verilog]
+----
+include::{sourcedir}/operator_ex_reduction.v[]
+----
+[source]
+----
+include::{sourcedir}/operator_ex_reduction.txt[]
+----
+
+== Operadores de deslocamento (shift)
+Existem dois tipos de deslocamento: lógicos e aritméticos. As diferenças estão em como o sinal é tratado. No caso do deslocamento lógico, o espaço vazio é prenchido com zero. No caso do deslocamento aritmético, o sinal será estendido. Perceba que no caso do dado ser unsigned o zero será estendido pois trata-se de um valor positivo enquanto que no caso de signed, o sinal extendido poderá ser positivo ou negativo (0 ou 1).
+
+[source,verilog]
+----
+include::{sourcedir}/operator_ex_shift.v[]
+----
+Que retorna
+[source]
+----
+include::{sourcedir}/operator_ex_shift.txt[]
+----
+
+==  Concatenações e replicações
+
+Uma concatenação une os valores de bits de várias expressões em uma só. A concatenação será feita envolvendo as expressões escolhidas por { e }. Como por exemplo
+
+[source,verilog]
+----
+include::{sourcedir}/operator_ex_concatenation.v[]
+----
+[source]
+----
+include::{sourcedir}/operator_ex_concatenation.txt[]
+----
+
+== Operadores e tipos reais
+Nem todos os operadores podem ser utilizados com os tipos reais. 
+
+=== Operadores válidos para uso com reais
+[cols="1,1"]
+|===
+| + - | Operadores unários
+| + - * / ** | Aritméticos
+| > >= < <= | Relacional
+| ! && \|\| | Lógico
+| == != | Igualdade Lógica
+| ?: | Condicional
+|===
+
+=== Operadores inválidos para uso com reais
+
+[cols="1,1"]
+|===
+| {} {{}} | Concatenação, replicate
+| % | Módulo
+| === !=== | Case equality
+| ~ & \| ^ ^~ ~^ | Bitwise
+| ^ ^~ ~^ & ~& \| ~\| | Redução
+| << >> <<< >>> | Deslocamento (shift)
+|===
