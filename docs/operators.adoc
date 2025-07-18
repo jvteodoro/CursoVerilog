@@ -135,6 +135,8 @@ Os operadores bitwise são &, |, ^, ~, ^~, ~^ . Com exceção do operador ~, tod
 
 == Operadores Lógicos
 
+Temos três operadores lógicos, sendo um operador unário. Os operadores lógicos and (&&) e or (||) são conectivos lógicos. O resultado de uma comparação lógica deverá ter o valor verdadeiro (1), falso (0) ou desconhecido (x). 
+
 == Operadores Unários
 
 [cols="1,1"]
