@@ -1,6 +1,6 @@
 = Condicionais
 
-os principais operadores que utilizamos para condicionais em verilog são:
+Os principais operadores que utilizamos para condicionais em verilog são:
 
 * if 
 * else
@@ -32,9 +32,9 @@ module exemplo(
     end
 endmodule
 ----
-no caso acima, se a entrada for 1, a saída será 0010, caso contrário, a saída permanecerá com o valor inicial de 0000. Portanto, não é necessário um bloco else.
+No caso acima, se a entrada for 1, a saída será 0010, caso contrário, a saída permanecerá com o valor inicial de 0000. Portanto, não é necessário um bloco else.
 
-agora, para o caso abaixo, o uso de else é necessário, pois se não nosso output saida apresentaria um valor indefinido (metaestado);
+Agora, para o caso abaixo, o uso de else é necessário, pois se não nosso output saida apresentaria um valor indefinido (metaestado);
 [source, verilog]
 ----
 module exemplo(
@@ -54,7 +54,7 @@ endmodule
 ----
 
 == case
-o case é utilizado para comparar uma variável com múltiplos valores possíveis, semelhante ao switch em outras linguagens. A estrutura básica é:
+O case é utilizado para comparar uma variável com múltiplos valores possíveis, semelhante ao switch em outras linguagens. A estrutura básica é:
 [source,verilog]
 ----
 case (variável)
@@ -86,6 +86,6 @@ module exemplo(
     end
 endmodule
 ----
-nunca se esqueça de declarar um default, mesmo que seu case tenha todas as possibilidades, isso é uma boa prática para evitar metaestados indesejados, por exemplo, no código acima, se a sua entrada estiver em um metaestado, a saída será 0000, evitando assim a propagação de um comportamento indefinido.
+Nunca se esqueça de declarar um default, mesmo que seu case tenha todas as possibilidades, isso é uma boa prática para evitar metaestados indesejados, por exemplo, no código acima, se a sua entrada estiver em um metaestado, a saída será 0000, evitando assim a propagação de um comportamento indefinido.
 
 
