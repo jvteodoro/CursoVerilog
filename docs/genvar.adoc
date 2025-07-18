@@ -8,8 +8,9 @@ O `genvar` não pode armazenar valores durante a simulação, sendo usado soment
 == Exemplo de Uso
 [source, verilog]
 ----
-module exemplo_genvar;
-    wire [3:0] saida;
+module exemplo_genvar(
+    output [3:0] saida
+    );
 
     generate
         genvar i;
