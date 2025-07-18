@@ -1,0 +1,40 @@
+= Instanciação
+A instanciação de módulos em *Verilog* é o processo de referenciar um módulo declarado em outro lugar, sendo esse no mesmo arquivo, ou em um outro separado. Ela é necessária para definir como, e quantas vezes, um módulo deve ser utilizado dentro de outro módulo ou bloco de código.
+
+A sintaxe básica para instanciar um módulo é a seguinte:
+```
+<nome_do_modulo> <nome_da_instancia> #(<lista_de_parametros>) (<lista_de_portas>);
+```
+Onde:
+
+* `<nome_do_modulo>` é o nome do módulo que você deseja instanciar;
+* `<nome_da_instancia>` é o nome que você deseja dar à instância do módulo;
+* `<lista_de_parametros>` é uma lista opcional de parâmetros que podem ser passados para o módulo, se ele tiver parâmetros definidos;
+* `<lista_de_portas>` é uma lista de conexões entre as portas do módulo e os sinais do módulo pai.
+
+Tanto a `<lista_de_parametros>` quanto a `<lista_de_portas>` podem ser especificadas de duas maneiras:
+
+* Posicional, onde as portas/parâmetros são conectadas por posição: `<nome_do_modulo> <nome_da_instancia> (sinal1, sinal2, ...);`
+* Nomeada, onde as portas/parâmetros são conectadas por nome: `<nome_do_modulo> <nome_da_instancia> (.porta1(sinal1), .porta2(sinal2), ...);`
+
+A conexão posicional é mais comum, mas a conexão nomeada é mais explícita e pode ser mais fácil de entender, especialmente em módulos com muitas portas.
+Em seguida está um exemplo de instanciação de um módulo chamado `meu_modulo`, com dois parâmetros par1 e par2, e duas portas, `porta1` e `porta2`, dentro de um módulo pai:
+
+```
+module meu_modulo #(parameter par1 = 8, parameter par2 = 16) (
+    input [par1-1:0] porta1,
+    output [par2-1:0] porta2
+);
+    // Implementação do módulo
+endmodule
+
+module modulo_pai;
+    // Instanciação do módulo meu_modulo
+    meu_modulo #(.par1(8), .par2(16)) instancia1 (
+        .porta1(sinal_entrada),
+        .porta2(sinal_saida)
+    );
+endmodule
+```
+Neste exemplo, o módulo `meu_modulo` é instanciado dentro do módulo `modulo_pai`, com os parâmetros `par1` e `par2` definidos como 8 e 16, respectivamente. As portas `porta1` e `porta2` são conectadas aos sinais `sinal_entrada` e `sinal_saida`, respectivamente.
+Além disso, a declaração dos parâmetros de `meu_modulo` já possui valores padrão, que serão utilizados caso não sejam especificados durante a instanciação.
