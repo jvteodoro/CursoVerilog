@@ -19,8 +19,8 @@ Tanto a `<lista_de_parametros>` quanto a `<lista_de_portas>` podem ser especific
 
 A conexão posicional é mais comum, mas a conexão nomeada é mais explícita e pode ser mais fácil de entender, especialmente em módulos com muitas portas.
 Em seguida está um exemplo de instanciação de um módulo chamado `meu_modulo`, com dois parâmetros par1 e par2, e duas portas, `porta1` e `porta2`, dentro de um módulo pai:
-
-```
+[source, verilog]
+----
 module meu_modulo #(parameter par1 = 8, parameter par2 = 16) (
     input [par1-1:0] porta1,
     output [par2-1:0] porta2
@@ -35,6 +35,7 @@ module modulo_pai;
         .porta2(sinal_saida)
     );
 endmodule
-```
+----
+
 Neste exemplo, o módulo `meu_modulo` é instanciado dentro do módulo `modulo_pai`, com os parâmetros `par1` e `par2` definidos como 8 e 16, respectivamente. As portas `porta1` e `porta2` são conectadas aos sinais `sinal_entrada` e `sinal_saida`, respectivamente.
 Além disso, a declaração dos parâmetros de `meu_modulo` já possui valores padrão, que serão utilizados caso não sejam especificados durante a instanciação.
