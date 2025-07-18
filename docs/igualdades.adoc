@@ -3,16 +3,25 @@ Os operadores de igualdade em *Verilog* são semelhantes aos de outras linguagen
 
 Os dois tipos mais comuns de operadores de igualdade são:
 
-* `==` - Igualdade (equal)
-* `!=` - Desigualdade (not equal)
+[cols="1,1"]
+|===
+|Operador | Significado
+| Igualdade (equal) | ==
+| Desigualdade (not equal) | !=
+|===
 
 Entretanto, existem também operadores de igualdade específicos para comparação de valores do *Verilog*, que são:
 
-* `===` - Igualdade estrita (strict equality)
-* `!==` - Desigualdade estrita (strict not equal)
+[cols="1,1"]
+|===
+|Operador | Significado
+| Igualdade estrita (strict equality) | ===
+| Desigualdade estrita (strict not equal) | !==
+|===
 
 Esses operadores se distinguem por considerar o estado dos bits de alta impedância (z) e não inicializados (x) nas comparações. Ou seja:
-```
+[source, verilog]
+----
 4'b1001 === 4'b1001; // devolve 1
 4'b101x === 4'b1011; // devolve 0
 4'b101x == 4'b1011; // devolve x
@@ -23,4 +32,4 @@ Esses operadores se distinguem por considerar o estado dos bits de alta impedân
 4'b101z != 4'b1z00; // devolve 1
 4'd9 == 4'd9; // devolve 1
 4'd14 != 4'd14; // devolve 0
-```
+----
