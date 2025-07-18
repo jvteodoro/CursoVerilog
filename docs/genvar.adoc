@@ -1,0 +1,25 @@
+= Genvar
+
+Em *Verilog*, o termo `genvar` é usado para declarar variáveis de geração, que são utilizadas em estruturas como `generate` e `for generate`. Ela funciona de maneira parecida com uma variável de loop, mas é especificamente projetada para ser usada em contextos de geração de hardware footnote:[Versões antigas do *Verilog* necessitavam da declaração do `genvar` fora de loops (`for`), mas versões mais recentes permitem que ele seja declarado dentro do loop de geração.].
+
+O `genvar` não pode armazenar valores durante a simulação, sendo usado somente para controle da geração de instâncias de módulos ou blocos de código.
+
+
+== Exemplo de Uso
+[source, verilog]
+----
+module exemplo_genvar;
+    wire [3:0] saida;
+
+    generate
+        genvar i;
+        for (/*genvar pode ir aqui em versões mais novas*/ i = 0; i < 4; i = i + 1) begin : nome_bloco
+        // nome_bloco é opcional em versões mais recentes
+            modulo_instancia instancia (
+                .entrada(i),
+                .saida(saida[i])
+            );
+        end
+    endgenerate
+endmodule
+----
