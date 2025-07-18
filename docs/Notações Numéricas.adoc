@@ -1,0 +1,62 @@
+= Notações Numéricas:
+
+Em *Verilog*, as notações numéricas são usadas para representar valores numéricos de forma compacta e eficiente.
+
+De forma geral, valores literais em *Verilog* seguem o seguinte padrão:
+
+* Prefixo que define o tamanho do valor em bits (se deixado em branco, infere-se o menor tamanho, dado o contexto);
+* Presença (ou não) de s ou S, indicando se o valor é assinado (signed) ou não (unsigned, que é o padrão);
+* Base/Radix;
+* Valor numérico representado na base especificada.
+
+Aqui está uma lista de cada notação explicada com maior detalhe:
+
+== Notação Binária:
+
+A notação binária tende a ser um dos formatos mais utilizados na representação numérica em *Verilog*. O símbolo 'b' ou 'B' é usado para indicar que o valor é binário.
+
+Aqui estão alguns exemplos de notação binária:
+```
+'b10010 // 5 bits, base binária, valor 18
+4'B1010 // 4 bits, base binária, valor 10
+8'b11111111 // 8 bits, base binária, valor 255
+1'B0 // 1 bit, base binária, valor 0
+1'b1 // 1 bit, base binária, valor 1
+```
+
+== Notação Octal:
+A notação octal é a menos comum no contexto das disciplinas de Sistemas Digitais I e II, mas ainda é importante conhecê-la. O símbolo 'o' ou 'O' é usado para indicar que o valor é octal.
+Aqui estão alguns exemplos de notação octal:
+```
+'o10 // 4 bits, base octal, valor 8
+4'O12 // 4 bits, base octal, valor 10
+8'o377 // 8 bits, base octal, valor 255
+1'o0 // 1 bit, base octal, valor 0
+1'O1 // 1 bit, base octal, valor 1
+```
+Lembrando que, na notação octal, cada dígito pode assumir valores de 0 a 7. Ou seja, o segundo exemplo apresendado representa o valor 10 na base decimal, pois:
+`1*8^1 + 2*8^0 = 8 + 2 = 10`.
+
+== Notação Decimal:
+A notação decimal é a mais comum e intuitiva, representando valores na base 10. Não é necessário um prefixo específico, pois é o padrão.
+Aqui estão alguns exemplos de notação decimal:
+```
+10 // 4 bits, base decimal, valor 10
+4'10 // 4 bits, base decimal, valor 10
+8'255 // 8 bits, base decimal, valor 255
+1'0 // 1 bit, base decimal, valor 0
+1'1 // 1 bit, base decimal, valor 1
+```
+
+== Notação Hexadecimal:
+A notação hexadecimal é muito utilizada. Quase tanto quanto as notações binária e decimal, na verdade. O símbolo 'h' ou 'H' é usado para indicar que o valor é hexadecimal.
+Aqui estão alguns exemplos de notação hexadecimal:
+```
+'hA // 4 bits, base hexadecimal, valor 10
+4'HF // 4 bits, base hexadecimal, valor 15
+8'hFF // 8 bits, base hexadecimal, valor 255
+1'h0 // 1 bit, base hexadecimal, valor 0
+1'H1 // 1 bit, base hexadecimal, valor 1
+```
+Lembrando que, na notação hexadecimal, cada dígito pode ir de 0 a F, em que A, B, C, D, E e F representam os valores 10, 11, 12, 13, 14 e 15, respectivamente. Por exemplo, o terceiro exemplo apresentado representa o valor 255 na base decimal, pois:
+`F*16^1 + F*16^0 = 15*16 + 15 = 240 + 15 = 255`.
