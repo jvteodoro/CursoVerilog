@@ -14,6 +14,30 @@
 
 |===
 
+== Precedência de Operadores
+
+A precedência de operadores é descrita pela tabela a seguir, onde a maior as linhas estão organizadas da maior precedência para a menor
+
+[cols="1"]
+|===
+|+, -, !, ~, &, ~&, |, ~|, ^, ~^, ^~
+| **
+| * / %
+| + - 
+| << >> <<< >>>
+| < <= > >=
+| == != === !==
+| &
+|^ ^~ ~^
+| \|
+| &&
+| \|\|
+| ?: (conditional operator)
+| {} {{}}
+|===
+
+Com exceção do operador condicional, todoso os operadores serão associados da esquerda para direita, i.e operadores com a mesma precedência serão avaliados da esquerda para a direita.
+
 == Ordem de evaluation
 Uma expressão poder ter seu resultado conhecido sem que todas as partes sejam avaliadas, o que recebe o nome de "short-circuiting". Como por exemplo
 
@@ -57,6 +81,59 @@ include::{sourcedir}/operator_ex_sign_unsign.txt[]
 Em uma operação de divisão ou modulo, caso o segundo operando for zero, então o valor da expressão será 'x'. O resultado da operação modulo terá o sinal do primeiro operando.
 
 Teremos valores não especificados no caso do operador de potência receber o primeiro operando igual a zero e o segundo um operando não positivo ou caso o primeiro operando seja negativo e o segundo operando um valor não inteiro.
+
+== Operadores Bitwise
+Os operadores bitwise são &, |, ^, ~, ^~, ~^ . Com exceção do operador ~, todos os outros requerem dois operandos. O operador ~ (not) é um operador bitwise unário.
+
+=== Tabelas verdade
+==== &
+[cols="1,1,1,1,1"]
+|===
+| & | 0 | 1 | x | z
+| 0 | 0 | 0 | 0 | 0
+| 1 | 0 | 1 | x | z
+| x | 0 | x | x | x
+| z | 0 | x | x | x
+|=== 
+==== |
+[cols="1,1,1,1,1"]
+|===
+| \| | 0 | 1 | x | z
+|0   | 0 | 1 | x | z
+| 1  | 1 | 1 | 1 | 1
+| x  | x | 1 | x | x
+| z  | x | 1 | x | x
+|=== 
+==== ^
+[cols="1,1,1,1,1"]
+|===
+| ^ | 0 | 1 | x | z
+| 0 | 0 | 1 | x | x
+| 1 | 1 | 0 | x | x
+| x | x | x | x | x
+| z | x | x | x | x
+|=== 
+==== ~
+[cols="1,1"]
+|===
+| ~ |    
+| 0 | 1 
+| 1 | 0
+| x | x
+| z | x
+|===
+==== ~^ ou ^~
+[cols="1,1,1"]
+|===
+| ~^, ^~ | 0 | 1 | x | z
+| 0      | 1 | 0 | x | x
+| 1      | 0 | 1 | x | x
+| x      | x | x | x | x
+| z      | x | x | x | x
+|=== 
+
+
+== Operadores Lógicos
 
 == Operadores Unários
 
@@ -115,3 +192,42 @@ Que retorna
 ----
 include::{sourcedir}/operator_ex_shift.txt[]
 ----
+
+==  Concatenações e replicações
+
+Uma concatenação une os valores de bits de várias expressões em uma só. A concatenação será feita envolvendo as expressões escolhidas por { e }. Como por exemplo
+
+[source,verilog]
+----
+include::{sourcedir}/operator_ex_concatenation.v[]
+----
+[source]
+----
+include::{sourcedir}/operator_ex_concatenation.txt[]
+----
+
+== Operadores e tipos reais
+Nem todos os operadores podem ser utilizados com os tipos reais. 
+
+=== Operadores válidos para uso com reais
+[cols="1,1"]
+|===
+| + - | Operadores unários
+| + - * / ** | Aritméticos
+| > >= < <= | Relacional
+| ! && \|\| | Lógico
+| == != | Igualdade Lógica
+| ?: | Condicional
+|===
+
+=== Operadores inválidos para uso com reais
+
+[cols="1,1"]
+|===
+| {} {{}} | Concatenação, replicate
+| % | Módulo
+| === !=== | Case equality
+| ~ & \| ^ ^~ ~^ | Bitwise
+| ^ ^~ ~^ & ~& \| ~\| | Redução
+| << >> <<< >>> | Deslocamento (shift)
+|===
