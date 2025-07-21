@@ -1,0 +1,131 @@
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%
+% Welcome to Overleaf --- just edit your LaTeX on the left,
+% and we'll compile it for you on the right. If you open the
+% 'Share' menu, you can invite other users to edit at the same
+% time. See www.overleaf.com/learn for more info. Enjoy!
+%
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\documentclass{beamer}
+\usepackage[utf8]{inputenc}
+\usepackage{minted} % Para sintaxe destacada de código
+\usepackage{tikz}
+%Information to be included in the title page:
+\title{Instanciação: sintaxe e nomenclatura}
+\author{Sophia Soares Mariano}
+\institute{Poliware}
+\date{2025}
+
+\begin{document}
+
+\frame{\titlepage}
+
+\begin{frame}
+\frametitle{Instanciação: sintaxe e nomenclatura}
+A instanciação é uma forma de acessar um módulo dentro de outro módulo. É muito utilizada para não deixar que o código fique muito grande e repetitivo.
+\\
+Suponha que já exista um módulo cuja função você deseja utilizar no seu módulo mais recente.
+\end{frame}
+
+
+\begin{frame}[fragile]{Módulo já existente}
+\small
+\begin{minted}[fontsize=\footnotesize, linenos]{verilog}
+module nome_do_modulo_interno ( //  Módulo já existente
+    input tipo_entrada1,
+    input tipo_entrada2,
+    output tipo_saida1
+);
+    // exemplo de lógica combinacional
+    assign tipo_saida1 = tipo_entrada1 & tipo_entrada2; 
+endmodule
+\end{minted}
+Assim, você quer utilizar esse módulo acima dentro de um novo módulo, de forma a reutilizar o código já existente.
+\end{frame}
+
+\begin{frame}[fragile]{Módulo novo}
+\scriptsize
+\begin{minted}[linenos]{verilog}
+module nome_do_modulo ( //escreva o módulo normalmente
+    input tipo_entrada1,
+    input tipo_entrada2,
+    output tipo_saida1, 
+    output [31:0] tipo_saida2, 
+    output reg tipo_saida3 
+);
+//coloque o nome do módulo que se deseja instanciar e o nome da instância
+ nome_do_modulo_interno instancia1 ( 
+            //conecte os valores do módulo externo com o interno
+            .entrada1(tipo_entrada1), 
+            .entrada2(tipo_entrada2), 
+            .saida1(tipo_saida1),
+        );
+
+endmodule
+\end{minted}
+Para conectar o módulo antigo ao novo módulo, eles devem estar no mesmo arquivo, ou pasta, dependendo de sua conexão. Obrigatoriamente, deve-se utilizar esse formato para que os valores do módulo JÁ EXISTENTE sejam passados para as variáveis presentes no módulo mais recente.
+\end{frame}
+
+\begin{frame}[fragile]{Módulo novo alternativo}
+\scriptsize
+\begin{minted}[linenos]{verilog}
+module nome_do_modulo ( //escreva o módulo normalmente
+    input tipo_entrada1,
+    output tipo_saida1, 
+    output [31:0] tipo_saida2, 
+    output reg tipo_saida3 
+);
+wire variavel_interna2;
+
+ nome_do_modulo_interno instancia1 ( 
+            .entrada1(tipo_entrada1), 
+            .entrada2(variavel_interna2), //conecte com valor interno
+            .saida1(tipo_saida1),
+        );
+
+endmodule
+\end{minted}
+O módulo instanciado também pode passar valores para variáveis criadas internamente no novo módulo, como no exemplo acima.
+\end{frame}
+
+\begin{frame}
+\frametitle{Complementando a Instanciação}
+
+Além de instanciar, você pode escrever a lógica interna do módulo novo normalmente, adicionando reg's, wire's e operações lógicas livremente.
+\end{frame}
+
+\begin{frame}[fragile]{Complementando a Instanciação}
+\scriptsize
+\begin{minted}[linenos]{verilog}
+module nome_do_modulo ( 
+    input tipo_entrada1,
+    input tipo_entrada2,
+    output tipo_saida1, 
+    output [31:0] tipo_saida2, 
+    output reg tipo_saida3 
+);
+
+ nome_do_modulo_interno instancia1 ( 
+            .entrada1(tipo_entrada1), 
+            .entrada2(tipo_entrada2), 
+            .saida1(tipo_saida1),
+        );
+
+    // Outra lógica sequencial
+always @(*) begin
+        if (tipo_entrada1 > tipo_entrada2) begin
+            tipo_saida3 <= tipo_entrada1 + tipo_entrada2; 
+            // exemplo de lógica combinacional
+        end
+    end
+
+endmodule
+\end{minted}
+\end{frame}
+
+\begin{frame}[plain]
+    \centering
+    {\Huge \textbf{Obrigado!}}
+\end{frame}
+
+\end{document}

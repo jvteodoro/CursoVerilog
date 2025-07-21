@@ -1,0 +1,115 @@
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%
+% Welcome to Overleaf --- just edit your LaTeX on the left,
+% and we'll compile it for you on the right. If you open the
+% 'Share' menu, you can invite other users to edit at the same
+% time. See www.overleaf.com/learn for more info. Enjoy!
+%
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\documentclass{beamer}
+\usepackage[utf8]{inputenc}
+\usepackage{minted} % Para sintaxe destacada de código
+\usepackage{tikz}
+%Information to be included in the title page:
+\title{Escrita de Módulo}
+\author{Sophia Soares Mariano}
+\institute{Poliware}
+\date{2025}
+
+\begin{document}
+
+\frame{\titlepage}
+
+\begin{frame}
+\frametitle{Escrita de Módulo}
+A escrita de um módulo em verilog consiste em definir um bloco de código que descreve um circuito digital. 
+Pode conter entradas, saídas, e lógica interna, e pode ser instanciado dentro de outros módulos.
+\\
+\textcolor{red}{A escrita correta do módulo é fundamental para o funcionamento do circuito digital. Dessa forma, preste atenção
+aos pequenos detalhes, como ponto e vírgula, parênteses, e a ordem das entradas e saídas.}
+\end{frame}
+
+
+\begin{frame}[fragile]{Escrita básica da headliner do módulo}
+\small
+\begin{minted}[fontsize=\footnotesize, linenos]{verilog}
+module nome_do_modulo (
+    input tipo_entrada1, //define o valor como entrada
+    input tipo_entrada2,
+    output tipo_saida1, //define o valor como saída
+    output [31:0] tipo_saida2, //define saída de tamanho diferente
+    output reg tipo_saida3 //define o valor como saída do tipo reg
+);
+endmodule
+\end{minted}
+Escolha o nome do módulo e seus tipos de entradas e saídas.
+\end{frame}
+
+\begin{frame}
+\frametitle{Escrita da lógica interna}
+Para a lógica interna no módulo, é possível definir variáveis do tipo "wire" ou "reg", criando variáveis internas.
+Além disso, é possível utilizar blocos "always" e "assign" para definir o comportamento do circuito.
+\end{frame}
+
+\begin{frame}[fragile]{Escrita da lógica interna}
+\scriptsize
+\begin{minted}[linenos]{verilog}
+module nome_do_modulo (
+    input tipo_entrada1,
+    input tipo_entrada2,
+    output tipo_saida1, 
+    output reg tipo_saida3 
+);
+ wire [31:0] saida_interna; // define um wire interno
+ reg [31:0] saida_reg; // define um reg interno
+
+    always @(*) begin
+        if (tipo_entrada1 > tipo_entrada2) begin
+            tipo_saida3 <= tipo_entrada1 + tipo_entrada2; // lógica combinacional
+        end
+    end
+
+    assign tipo_saida1 = tipo_entrada1 & tipo_entrada2; 
+    assign saida_interna = tipo_entrada1 + tipo_entrada2; //para um wire
+
+    always @(posedge clk) begin //para um reg
+        saida_reg <= saida_interna; 
+    end
+
+endmodule
+\end{minted}
+\end{frame}
+
+\begin{frame}
+\frametitle{Instanciação de outros módulos dentro do módulo}
+
+Vamos apenas mostrar como se usa a instância. Para maiores explicações, acesse a aula de sintaxe e nomenclatura.
+\end{frame}
+
+\begin{frame}[fragile]{Instanciação de outros módulos dentro do módulo}
+\small
+\begin{minted}[linenos]{verilog}
+module nome_do_modulo (
+    input tipo_entrada1,
+    input tipo_entrada2,
+    output tipo_saida1, 
+    output [31:0] tipo_saida2, 
+    output reg tipo_saida3 
+);
+//conecta os valores do módulo externo com o interno
+    nome_do_modulo_interno instancia1 ( 
+            .entrada1(tipo_entrada1), 
+            .entrada2(tipo_entrada2),
+            .saida1(tipo_saida1),
+            .saida2(tipo_saida2)
+        );
+endmodule
+\end{minted}
+\end{frame}
+
+\begin{frame}[plain]
+    \centering
+    {\Huge \textbf{Obrigado!}}
+\end{frame}
+
+\end{document}

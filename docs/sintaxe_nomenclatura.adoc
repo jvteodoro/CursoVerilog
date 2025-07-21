@@ -1,0 +1,70 @@
+= Instanciação:  sintaxe e nomenclatura
+
+A instanciação é uma forma de acessar um módulo dentro de outro módulo. 
+Muito utilizada para não deixar que o código fique muito grande e repetitivo.
+
+== Sintaxe de Instanciação
+
+Suponha que já exista um módulo cuja função você deseja utilizar no seu módulo mais recente.
+
+[source,verilog]
+----
+
+module nome_do_modulo_interno ( //  Módulo já existente
+    input tipo_entrada1,
+    input tipo_entrada2,
+    output tipo_saida1
+);
+    assign tipo_saida1 = tipo_entrada1 & tipo_entrada2; // exemplo de lógica combinacional
+endmodule
+
+Assim, você quer utilizar esse módulo acima dentro de um novo módulo, de forma a reutilizar o código já existente.
+
+[source,verilog]
+----
+module nome_do_modulo ( //escreva o módulo normalmente
+    input tipo_entrada1,
+    input tipo_entrada2,
+    output tipo_saida1, 
+    output [31:0] tipo_saida2, 
+    output reg tipo_saida3 
+);
+
+ nome_do_modulo_interno instancia1 ( //coloque o nome do módulo que se deseja instanciar e o nome da instância
+            .entrada1(tipo_entrada1), 
+            .entrada2(tipo_entrada2), //conecte os valores do módulo externo com o interno
+            .saida1(tipo_saida1),
+        );
+
+endmodule
+
+== Complementando a Instanciação
+
+[source,verilog]
+----
+module nome_do_modulo ( //escreva o módulo normalmente
+    input tipo_entrada1,
+    input tipo_entrada2,
+    output tipo_saida1, 
+    output [31:0] tipo_saida2, 
+    output reg tipo_saida3 
+);
+
+ nome_do_modulo_interno instancia1 ( //coloque o nome do módulo que se deseja instanciar e o nome da instância
+            .entrada1(tipo_entrada1), 
+            .entrada2(tipo_entrada2), //conecte os valores do módulo externo com o interno
+            .saida1(tipo_saida1),
+        );
+
+//Além de instanciar, você pode escrever a lógica interna do módulo novo normalmente.
+
+    // Outra lógica sequencial
+always @(*) begin
+        if (tipo_entrada1 > tipo_entrada2) begin
+            tipo_saida3 <= tipo_entrada1 + tipo_entrada2; // exemplo de lógica combinacional
+        end
+    end
+
+endmodule
+
+Dessa forma, é possível deixar seu código mais organizado e eficiente.

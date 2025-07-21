@@ -1,0 +1,80 @@
+= Escrita de Módulo
+
+A escrita de um módulo em verilog consiste em definir um bloco de código que descreve um circuito digital. 
+Pode conter entradas, saídas, e lógica interna, e pode ser instanciado dentro de outros módulos.
+
+== Escrita básica da headliner
+
+[source,verilog]
+----
+
+module nome_do_modulo (
+    input tipo_entrada1, //define o valor como entrada
+    input tipo_entrada2,
+    output tipo_saida1, //define o valor como saída
+    output [31:0] tipo_saida2, //define o valor como saída de tamanho diferente
+    output reg tipo_saida3 //define o valor como saída do tipo reg
+);
+endmodule
+
+----
+== Escrita da lógica interna
+
+Para a lógica interna no módulo, é possível definir variáveis do tipo "wire" ou "reg", criando variáveis internas.
+Além disso, é possível utilizar blocos "always" e "assign" para definir o comportamento do circuito.
+
+[source,verilog]
+----
+module nome_do_modulo (
+    input tipo_entrada1,
+    input tipo_entrada2,
+    output tipo_saida1, 
+    output [31:0] tipo_saida2, 
+    output reg tipo_saida3 
+);
+ wire [31:0] saida_interna; // define um wire interno
+ reg [31:0] saida_reg; // define um reg interno
+
+    always @(*) begin
+        if (tipo_entrada1 > tipo_entrada2) begin
+            tipo_saida3 <= tipo_entrada1 + tipo_entrada2; // exemplo de lógica combinacional
+        end
+    end
+
+    assign tipo_saida1 = tipo_entrada1 & tipo_entrada2; 
+    assign saida_interna = tipo_entrada1 + tipo_entrada2; //para um wire
+
+    always @(posedge clk) begin //para um reg
+        saida_reg <= saida_interna; 
+    end
+
+endmodule
+
+== Instanciação de outros módulos dentro do módulo
+
+Vamos apenas mostrar como se usa a instância. Para maiores explicações, acesse a aula de sintaxe e nomenclatura. 
+
+[source,verilog]
+----
+
+module nome_do_modulo (
+    input tipo_entrada1,
+    input tipo_entrada2,
+    output tipo_saida1, 
+    output [31:0] tipo_saida2, 
+    output reg tipo_saida3 
+);
+
+    nome_do_modulo_interno instancia1 ( 
+            .entrada1(tipo_entrada1), //conecta os valores do módulo externo com o interno
+            .entrada2(tipo_entrada2),
+            .saida1(tipo_saida1),
+            .saida2(tipo_saida2)
+        );
+endmodule
+    
+
+A escrita correta do módulo é fundamental para o funcionamento do circuito digital. Dessa forma, preste atenção
+aos pequenos detalhes, como ponto e vírgula, parênteses, e a ordem das entradas e saídas.
+
+    
