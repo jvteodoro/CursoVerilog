@@ -1,0 +1,100 @@
+%----------------------------------------------------------------------------------------
+%    PACKAGES AND THEMES
+%----------------------------------------------------------------------------------------
+
+\documentclass[aspectratio=169,xcolor=dvipsnames]{beamer}
+\usetheme{SimpleDarkBlue}
+
+\usepackage{hyperref}
+\usepackage{graphicx} % Allows including images
+\usepackage{booktabs} % Allows the use of \toprule, \midrule and \bottomrule in tables
+\usepackage{minted}
+\usepackage[portuguese]{babel}
+
+%----------------------------------------------------------------------------------------
+%    TITLE PAGE
+%----------------------------------------------------------------------------------------
+
+\title{Verilog}
+\subtitle{Instanciação}
+
+\author{Diego Fontes de Avila}
+
+\institute
+{
+    Poliware \\
+    Escola Politécnica da Universidade de São Paulo % Your institution for the title page
+}
+\date{\today} % Date, can be changed to a custom date
+
+%----------------------------------------------------------------------------------------
+%    PRESENTATION SLIDES
+%----------------------------------------------------------------------------------------
+
+\begin{document}
+
+\begin{frame}
+    % Print the title page as the first slide
+    \titlepage
+\end{frame}
+
+%------------------------------------------------
+\section{Instanciação}
+%------------------------------------------------
+
+\begin{frame}[fragile]{Instanciação}
+    A sintaxe básica para instanciar um módulo é a seguinte:
+
+        \begin{block}{}
+        \begin{minted}{verilog}
+<nome_do_modulo> <nome_da_instancia> #(<lista_de_parametros>)
+    (<lista_de_portas>);
+        \end{minted}
+    \end{block}
+
+    Onde:
+    \begin{itemize}
+        \item $<nome\_do\_modulo>$ é o nome do módulo que você deseja instanciar;
+        \item $<nome\_da\_instancia>$ é o nome que você deseja dar à instância do módulo;
+        \item $<lista\_de\_parametros>$ é uma lista opcional de parâmetros que podem ser passados para o módulo, se ele tiver parâmetros definidos;
+        \item $<lista\_de\_portas>$ é uma lista de conexões entre as portas do módulo e os sinais do módulo pai.
+    \end{itemize}
+
+\end{frame}
+
+\begin{frame}{Instanciação}
+    Tanto a $<lista\_de\_parametros>$ quanto a $<lista\_de\_portas>$ podem ser especificadas de duas maneiras:
+    \begin{itemize}
+        \item Posicional, onde as portas/parâmetros são conectadas por posição: $<nome\_do\_modulo> <nome\_da\_instancia> (sinal1, sinal2, …)$;
+        \item Nomeada, onde as portas/parâmetros são conectadas por nome: $<nome\_do\_modulo> <nome\_da\_instancia> (.porta1(sinal1), .porta2(sinal2), …)$;
+    \end{itemize}
+    A conexão posicional é mais comum, mas a conexão nomeada é mais explícita e pode ser mais fácil de entender, especialmente em módulos com muitas portas. Em seguida está um exemplo de instanciação de um módulo chamado meu_modulo, com dois parâmetros par1 e par2, e duas portas, porta1 e porta2, dentro de um módulo pai:
+\end{frame}
+
+\begin{frame}[fragile]{Instanciação}
+        \begin{block}{Exemplo:}
+        \begin{minted}{verilog}
+module meu_modulo #(parameter par1 = 8, parameter par2 = 16) (
+    input [par1-1:0] porta1,
+    output [par2-1:0] porta2
+);
+    // Implementação do módulo
+endmodule
+
+module modulo_pai;
+    // Instanciação do módulo meu_modulo
+    meu_modulo #(.par1(8), .par2(16)) instancia1 (
+        .porta1(sinal_entrada),
+        .porta2(sinal_saida)
+    );
+endmodule
+        \end{minted}
+    \end{block}
+\end{frame}
+
+\begin{frame}{Instanciação}
+    Neste exemplo, o módulo $meu\_modulo$ é instanciado dentro do módulo $modulo\_pai$, com os parâmetros $par1$ e $par2$ definidos como $8$ e $16$, respectivamente. As portas $porta1$ e $porta2$ são conectadas aos sinais $sinal\_entrada$ e $sinal\_saida$, respectivamente. Além disso, a declaração dos parâmetros de $meu\_modulo$ já possui valores padrão, que serão utilizados caso não sejam especificados durante a instanciação.
+\end{frame}
+%----------------------------------------------------------------------------------------
+
+\end{document}

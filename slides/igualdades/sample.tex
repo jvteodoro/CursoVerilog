@@ -1,0 +1,88 @@
+%----------------------------------------------------------------------------------------
+%    PACKAGES AND THEMES
+%----------------------------------------------------------------------------------------
+
+\documentclass[aspectratio=169,xcolor=dvipsnames]{beamer}
+\usetheme{SimpleDarkBlue}
+
+\usepackage{hyperref}
+\usepackage{graphicx} % Allows including images
+\usepackage{booktabs} % Allows the use of \toprule, \midrule and \bottomrule in tables
+\usepackage{minted}
+\usepackage[portuguese]{babel}
+
+%----------------------------------------------------------------------------------------
+%    TITLE PAGE
+%----------------------------------------------------------------------------------------
+
+\title{Verilog}
+\subtitle{Igualdades}
+
+\author{Diego Fontes de Avila}
+
+\institute
+{
+    Poliware \\
+    Escola Politécnica da Universidade de São Paulo % Your institution for the title page
+}
+\date{\today} % Date, can be changed to a custom date
+
+%----------------------------------------------------------------------------------------
+%    PRESENTATION SLIDES
+%----------------------------------------------------------------------------------------
+
+\begin{document}
+
+\begin{frame}
+    % Print the title page as the first slide
+    \titlepage
+\end{frame}
+
+%------------------------------------------------
+\section{Igualdades}
+%------------------------------------------------
+
+\begin{frame}{Igualdades}
+    Os dois tipos mais comuns de operadores de igualdade são:
+    \begin{table}
+        \begin{tabular}{l l}
+            \toprule
+            \textbf{Operador} & \textbf{Significado} \\
+            \midrule
+            Igualdade (equal)            & ==               \\
+            Desigualdade (not equal)     & !=               \\
+            \bottomrule
+        \end{tabular}
+    \end{table}
+    Entretanto, existem também operadores de igualdade específicos para comparação de valores do \textbf{Verilog}, que são:
+    \begin{table}
+        \begin{tabular}{l l}
+            \toprule
+            \textbf{Operador} & \textbf{Significado} \\
+            \midrule
+            Igualdade estrita (strict equality)      & ===               \\
+            Desigualdade estrita (strict not equal)  & !==               \\
+            \bottomrule
+        \end{tabular}
+    \end{table}
+    Esses operadores se distinguem por considerar o estado dos bits de alta impedância (z) e não inicializados (x) nas comparações.
+\end{frame}
+\begin{frame}[fragile]{Igualdades}
+   Alguns exemplos são:
+    \begin{block}{Exemplos:}
+        \begin{minted}{verilog}
+        4'b1001 === 4'b1001; // devolve 1
+        4'b101x === 4'b1011; // devolve 0
+        4'b101x == 4'b1011; // devolve x
+        4'b101z == 4'b1011; // devolve x
+        4'b101x === 4'b101x; // devolve 1
+        4'b101z === 4'b101z; // devolve 1
+        4'b101z !== 4'b1z00; // devolve 1
+        4'b101z != 4'b1z00; // devolve 1
+        4'd9 == 4'd9; // devolve 1
+        4'd14 != 4'd14; // devolve 0
+        \end{minted}
+    \end{block}
+\end{frame}
+%----------------------------------------------------------------------------------------
+\end{document}

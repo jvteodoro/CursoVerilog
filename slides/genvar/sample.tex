@@ -1,0 +1,73 @@
+%----------------------------------------------------------------------------------------
+%    PACKAGES AND THEMES
+%----------------------------------------------------------------------------------------
+
+\documentclass[aspectratio=169,xcolor=dvipsnames]{beamer}
+\usetheme{SimpleDarkBlue}
+
+\usepackage{hyperref}
+\usepackage{graphicx} % Allows including images
+\usepackage{booktabs} % Allows the use of \toprule, \midrule and \bottomrule in tables
+\usepackage{minted}
+\usepackage[portuguese]{babel}
+
+%----------------------------------------------------------------------------------------
+%    TITLE PAGE
+%----------------------------------------------------------------------------------------
+
+\title{Verilog}
+\subtitle{Genvar}
+
+\author{Diego Fontes de Avila}
+
+\institute
+{
+    Poliware \\
+    Escola Politécnica da Universidade de São Paulo % Your institution for the title page
+}
+\date{\today} % Date, can be changed to a custom date
+
+%----------------------------------------------------------------------------------------
+%    PRESENTATION SLIDES
+%----------------------------------------------------------------------------------------
+
+\begin{document}
+
+\begin{frame}
+    % Print the title page as the first slide
+    \titlepage
+\end{frame}
+
+%------------------------------------------------
+\section{Genvar}
+%------------------------------------------------
+
+\begin{frame}[fragile]{Genvar}
+Em \textbf{Verilog}, o termo genvar é usado para declarar variáveis de geração, que são utilizadas em estruturas como generate e for generate. Ela funciona de maneira parecida com uma variável de loop, mas é especificamente projetada para ser usada em contextos de geração de hardware.
+
+O genvar não pode armazenar valores durante a simulação, sendo usado somente para controle da geração de instâncias de módulos ou blocos de código.
+\end{frame}
+
+\begin{frame}[fragile]{Genvar}
+    \begin{block}{Exemplo:}
+        \begin{minted}{verilog}
+module exemplo_genvar(
+    output [3:0] saida
+    );
+    generate
+        genvar i; /* 1 */
+        for (i = 0; i < 4; i = i + 1) begin : nome_bloco
+            modulo_instancia instancia (
+                .entrada(i),
+                .saida(saida[i])
+            );
+        end
+    endgenerate
+endmodule
+        \end{minted}
+    \end{block}
+\text{}\\[-20px]
+\tiny {1. Versões antigas do Verilog necessitavam da declaração do genvar fora de loops (for), mas versões mais recentes permitem que ele seja declarado dentro do loop de geração.}
+\end{frame}
+%----------------------------------------------------------------------------------------
+\end{document}
