@@ -1,0 +1,80 @@
+\documentclass{article}
+\usepackage[utf8]{inputenc}
+\usepackage[brazil]{babel}
+\usepackage{listings}
+\usepackage{xcolor}
+
+\lstdefinelanguage{Verilog}{
+  morekeywords={module, input, output, reg, wire, always, posedge, begin, end, if, else, case, default},
+  sensitive=true,
+  morecomment=[l]{//},
+  morestring=[b]",
+}
+
+\lstset{
+  language=Verilog,
+  basicstyle=\ttfamily\small,
+  keywordstyle=\color{blue},
+  commentstyle=\color{gray},
+  stringstyle=\color{red},
+  showstringspaces=false,
+  breaklines=true,
+  frame=single,
+  tabsize=2
+}
+
+\title{Always em Verilog}
+\date{}
+
+\begin{document}
+
+\maketitle
+
+\section*{Always}
+
+O bloco \texttt{always} em Verilog é uma das estruturas mais importantes para descrever o comportamento de circuitos digitais. Ele permite que você defina um bloco de código que será executado sempre que ocorrer uma mudança em seus sinais de entrada ou quando uma condição específica for atendida. Um bloco \texttt{always} pode ser usado de forma combinacional ou sequencial, dependendo de como você o define.
+
+\subsection*{Always Combinacional}
+
+\begin{lstlisting}
+always @(entrada) begin
+    saida = entrada + 1; // sempre que a entrada mudar, a saída será a entrada mais 1
+end
+\end{lstlisting}
+
+Geralmente, para lógica combinacional, você utiliza o bloco \texttt{always} com \texttt{@(*)}. Isso garante que o bloco seja reavaliado sempre que qualquer sinal que está sendo atribuído dentro do bloco mudar. A sintaxe básica é:
+
+\begin{lstlisting}
+always @(*) begin
+    saida = entrada1 + entrada2; // sempre que qualquer sinal de entrada mudar, a saída será atualizada
+end
+\end{lstlisting}
+
+Ao utilizar dessa forma, qualquer sinal que esteja dentro do bloco \texttt{always} e do lado \emph{direito} da atribuição será considerado no \texttt{always}, e o bloco irá rodar sempre que qualquer um desses sinais mudar. No exemplo acima, a saída será atualizada sempre que \texttt{entrada1} ou \texttt{entrada2} mudar.
+
+\subsection*{Always Sequencial}
+
+\begin{lstlisting}
+always @(posedge clk) begin
+    saida <= entrada; // sempre que houver uma borda de subida no clock, a saída será atualizada com o valor da entrada
+end
+\end{lstlisting}
+
+Neste caso, o bloco \texttt{always} é sensível à borda de subida do sinal de clock (\texttt{clk}), e a saída (\texttt{saida}) será atualizada com o valor da entrada (\texttt{entrada}) sempre que ocorrer uma transição de subida no clock.
+
+\subsection*{Atribuições Não Bloqueantes}
+
+O uso de \texttt{<=} quer dizer que a atribuição é feita de forma \textbf{não bloqueante}, o que significa que todas as atribuições dentro do bloco serão feitas ao final do ciclo de clock, permitindo que outras operações ocorram antes que a saída seja atualizada:
+
+\begin{lstlisting}
+always @(posedge clk) begin
+    a <= b; // atribuição não bloqueante
+    b <= a; // outra atribuição não bloqueante
+end
+\end{lstlisting}
+
+Neste exemplo, \texttt{a} e \texttt{b} serão atualizados ao final do ciclo de clock, permitindo que ambas as atribuições sejam feitas sem interferência mútua. \texttt{a} recebe o valor antigo de \texttt{b} e \texttt{b} recebe o valor antigo de \texttt{a}. A \textbf{ordem} da atribuição não importa, pois ambas são feitas ao final do ciclo de clock.
+
+Como Verilog é uma linguagem de descrição de hardware, em circuitos sequenciais é recomendado utilizar sempre atribuições não bloqueantes para evitar problemas de sincronização.
+
+\end{document}
