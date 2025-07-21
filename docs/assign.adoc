@@ -1,0 +1,47 @@
+:sourcedir: ../source
+
+== Atribuições (Assignments)
+
+As atribuições são a forma de alocar valores para variábeis e nets. Existem dois tipos de atribuições: Atribuição contínua e atribuição procedural.
+
+As atribuições contínuas atribuem valores para nets enquanto que as atribuições procedurais atribuem valores para variáveis.
+
+As atribuições procedurais recebem esse nome pois devem correr dentro de um processo como always, initial, task ou funções. Para entendermos a diferença do uso de <= e = precisamos de entender o behavioral model.
+
+=== Behavioral Model
+A modelagem comportamental ocorre dentro dos processos: always, initial, task, function.
+O construto initial será executado uma vez no início da simulação, enquanto que o construto always executa repetidamente até o final da simulação
+
+=== Continuous Assignment
+As atribuições contínuas "drive" nets, vetores e escalares. Toda vez que o RHS muda, o seu valor será atribuído para o LHS. Um tipo net pode ter sua atribuição na mesma linha de sua declaração, e.g wire val = 1'b1;
+
+=== Procedural Assignment
+
+O LHS de uma atribuição procedural pode ser dos tipos
+- Reg, integer, real, realtime ou time
+- Bit-select de reg, integer ou time
+- Part-select de reg, integer ou time
+- Palavra de memória
+- Concatenação ou concatenação aninhada de qualquer um dos anteriores
+
+Existem dois tipos de procedural assignment, os blocking e os non blocking. Um blocking é definido com o uso do '=' enquanto que o nonblocking pelo '<='
+
+
+Os blocking assignments bloqueiam a execução da simulação até que o valor do RHS seja atribuido para o LHS.
+No caso dos non blockings, o RHS é avaliado em ordem aleatório e a atribuiçao para o LHS ocorre somente no final da unidade de tempo.
+
+Veja http://www.sunburst-design.com/papers/CummingsSNUG2000SJ_NBA.pdf para exemplos
+
+
+
+== Guidelines
+1. Quando modelar lógica sequencial, use nonblocking assignments
+2. Quando modelar latches, use nonblocking assignments
+3. Quando modelar lógica combinatória utilizando o bloco always, use blocking assignments
+4. Quando modelar lógica combinatória e sequencial em um mesmo bloco always, usar nonblocking assignments
+5. Não misture blocking e não blocking no mesmo bloco always
+6. não faça atribuições para a mesma variável em mais do que um bloco always
+7. Use $strobe para mostrar valores que foram atribuidos utilizando nonblocking assignments
+8. Não faça assignment usando #0 Delay
+
+http://www.sunburst-design.com/papers/CummingsSNUG2000SJ_NBA.pdf
