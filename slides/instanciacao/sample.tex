@@ -65,10 +65,10 @@
 \begin{frame}{Instanciação}
     Tanto a $<lista\_de\_parametros>$ quanto a $<lista\_de\_portas>$ podem ser especificadas de duas maneiras:
     \begin{itemize}
-        \item Posicional, onde as portas/parâmetros são conectadas por posição: $<nome\_do\_modulo> <nome\_da\_instancia> (sinal1, sinal2, …)$;
-        \item Nomeada, onde as portas/parâmetros são conectadas por nome: $<nome\_do\_modulo> <nome\_da\_instancia> (.porta1(sinal1), .porta2(sinal2), …)$;
+        \item Posicional, onde as portas/parâmetros são conectadas por posição: $<nome\_do\_modulo> <nome\_da\_instancia> (sinal1, sinal2, ...)$;
+        \item Nomeada, onde as portas/parâmetros são conectadas por nome: $<nome\_do\_modulo> <nome\_da\_instancia> (.porta1(sinal1), .porta2(sinal2), ...)$;
     \end{itemize}
-    A conexão posicional é mais comum, mas a conexão nomeada é mais explícita e pode ser mais fácil de entender, especialmente em módulos com muitas portas. Em seguida está um exemplo de instanciação de um módulo chamado meu_modulo, com dois parâmetros par1 e par2, e duas portas, porta1 e porta2, dentro de um módulo pai:
+    A conexão posicional é mais comum, mas a conexão nomeada é mais explícita e pode ser mais fácil de entender, especialmente em módulos com muitas portas. Em seguida está um exemplo de instanciação de um módulo chamado $meu\_modulo$, com dois parâmetros par1 e par2, e duas portas, porta1 e porta2, dentro de um módulo pai:
 \end{frame}
 
 \begin{frame}[fragile]{Instanciação}
@@ -96,5 +96,4 @@ endmodule
     Neste exemplo, o módulo $meu\_modulo$ é instanciado dentro do módulo $modulo\_pai$, com os parâmetros $par1$ e $par2$ definidos como $8$ e $16$, respectivamente. As portas $porta1$ e $porta2$ são conectadas aos sinais $sinal\_entrada$ e $sinal\_saida$, respectivamente. Além disso, a declaração dos parâmetros de $meu\_modulo$ já possui valores padrão, que serão utilizados caso não sejam especificados durante a instanciação.
 \end{frame}
 %----------------------------------------------------------------------------------------
-
 \end{document}
