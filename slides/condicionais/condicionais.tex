@@ -46,9 +46,9 @@ Os principais operadores que utilizamos para condicionais em Verilog são:
 
 \begin{lstlisting}
 if (condição) begin
-    // código a ser executado se a condição for verdadeira
+    // codigo a ser executado se a condição for verdadeira
 end else begin
-    // código a ser executado se a condição for falsa
+    // codigo a ser executado se a condição for falsa
 end
 \end{lstlisting}
 
@@ -60,7 +60,7 @@ module exemplo(
     output [3:0] saida 
 );
     initial begin
-        saida = 4'b0000; // valor inicial da saída
+        saida = 4'b0000; // valor inicial da saida
     end
     if (entrada == 1'b1) begin
         saida = 4'b0010; // se entrada for 1, saida será 0010
@@ -80,10 +80,10 @@ module exemplo(
     reg [3:0] saida_reg;
     always @(entrada) begin
         if (entrada == 1'b1) begin
-            saida_reg = 4'b0010; // se entrada for 1, saida será 0010
+            saida_reg = 4'b0010; // se entrada for 1, saida sera 0010
         end
         else begin
-            saida_reg = 4'b0000; // se entrada for 0, saida será 0000
+            saida_reg = 4'b0000; // se entrada for 0, saida sera 0000
         end
     end
 endmodule
@@ -94,15 +94,15 @@ endmodule
 O \texttt{case} é utilizado para comparar uma variável com múltiplos valores possíveis, semelhante ao \texttt{switch} em outras linguagens. A estrutura básica é:
 
 \begin{lstlisting}
-case (variável)
+case (variavel)
     valor1: begin
-        // código para valor1
+        // codigo para valor1
     end
     valor2: begin
-        // código para valor2
+        // codigo para valor2
     end
     default: begin
-        // código para caso nenhum valor corresponda
+        // codigo para caso nenhum valor corresponda
     end
 endcase
 \end{lstlisting}
@@ -116,11 +116,11 @@ module exemplo(
 );
     always @(entrada) begin
         case (entrada)
-            2'b00: saida = 4'b0001; // se entrada for 00, saida será 0001
-            2'b01: saida = 4'b0010; // se entrada for 01, saida será 0010
-            2'b10: saida = 4'b0100; // se entrada for 10, saida será 0100
-            2'b11: saida = 4'b1000; // se entrada for 11, saida será 1000
-            default: saida = 4'b0000; // para qualquer outro caso, saida será 0000
+            2'b00: saida = 4'b0001; // se entrada for 00, saida sera 0001
+            2'b01: saida = 4'b0010; // se entrada for 01, saida sera 0010
+            2'b10: saida = 4'b0100; // se entrada for 10, saida sera 0100
+            2'b11: saida = 4'b1000; // se entrada for 11, saida sera 1000
+            default: saida = 4'b0000; // para qualquer outro caso, saida sera 0000
         endcase
     end
 endmodule

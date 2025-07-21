@@ -46,8 +46,8 @@ Assim como em outras linguagens, \textbf{Verilog} também possui estruturas de r
 A estrutura \texttt{for} é utilizada para repetir um bloco de código enquanto uma condição for satisfeita. A sintaxe básica é:
 
 \begin{lstlisting}
-for (inicialização; condição; incremento) begin
-    // código a ser executado
+for (inicializacao; condicao; incremento) begin
+    // codigo a ser executado
 end
 \end{lstlisting}
 
@@ -60,10 +60,10 @@ module exemplo(
 );
     integer i;
     always @(entrada) begin
-        saida = 4'b0000; // valor inicial da saída
+        saida = 4'b0000; // valor inicial da saida
         for (i = 0; i < 4; i = i + 1) begin
             if (entrada[i] == 1'b1) begin
-                saida[i] = 1'b1; // se o bit i da entrada for 1, seta o bit i da saída para 1
+                saida[i] = 1'b1; // se o bit i da entrada for 1, seta o bit i da saida para 1
             end
         end
     end
@@ -77,8 +77,8 @@ Neste exemplo, o loop \texttt{for} percorre cada bit da entrada e, se o bit for 
 A estrutura \texttt{while} executa um bloco de código enquanto uma condição for verdadeira. A sintaxe básica é:
 
 \begin{lstlisting}
-while (condição) begin
-    // código a ser executado
+while (condicao) begin
+    // codigo a ser executado
 end
 \end{lstlisting}
 
@@ -91,10 +91,10 @@ module exemplo(
 );
     integer i = 0;
     always @(entrada) begin
-        saida = 4'b0000; // valor inicial da saída
+        saida = 4'b0000; // valor inicial da saida
         while (i < 4) begin
             if (entrada[i] == 1'b1) begin
-                saida[i] = 1'b1; // se o bit i da entrada for 1, seta o bit i da saída para 1
+                saida[i] = 1'b1; // se o bit i da entrada for 1, seta o bit i da saida para 1
             end
             i = i + 1; // incrementa i
         end
@@ -110,8 +110,8 @@ Neste caso, o código tem a mesma função do exemplo anterior, mas utiliza a es
 A estrutura \texttt{repeat} é utilizada para repetir um bloco de código um número específico de vezes. A sintaxe básica é:
 
 \begin{lstlisting}
-repeat (número_de_repetições) begin
-    // código a ser executado
+repeat (número_de_repeticoes) begin
+    // codigo a ser executado
 end
 \end{lstlisting}
 
@@ -131,7 +131,7 @@ A estrutura \texttt{forever} é utilizada para criar um loop infinito, que conti
 
 \begin{lstlisting}
 forever begin
-    // código a ser executado
+    // codigo a ser executado
 end
 \end{lstlisting}
 

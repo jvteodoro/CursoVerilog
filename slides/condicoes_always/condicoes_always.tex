@@ -38,7 +38,7 @@ O bloco \texttt{always} em Verilog é uma das estruturas mais importantes para d
 
 \begin{lstlisting}
 always @(entrada) begin
-    saida = entrada + 1; // sempre que a entrada mudar, a saída será a entrada mais 1
+    saida = entrada + 1; // sempre que a entrada mudar, a saida sera a entrada mais 1
 end
 \end{lstlisting}
 
@@ -46,7 +46,7 @@ Geralmente, para lógica combinacional, você utiliza o bloco \texttt{always} co
 
 \begin{lstlisting}
 always @(*) begin
-    saida = entrada1 + entrada2; // sempre que qualquer sinal de entrada mudar, a saída será atualizada
+    saida = entrada1 + entrada2; // sempre que qualquer sinal de entrada mudar, a saída sera atualizada
 end
 \end{lstlisting}
 
@@ -56,7 +56,7 @@ Ao utilizar dessa forma, qualquer sinal que esteja dentro do bloco \texttt{alway
 
 \begin{lstlisting}
 always @(posedge clk) begin
-    saida <= entrada; // sempre que houver uma borda de subida no clock, a saída será atualizada com o valor da entrada
+    saida <= entrada; // sempre que houver uma borda de subida no clock, a saida sera atualizada com o valor da entrada
 end
 \end{lstlisting}
 
@@ -68,8 +68,8 @@ O uso de \texttt{<=} quer dizer que a atribuição é feita de forma \textbf{nã
 
 \begin{lstlisting}
 always @(posedge clk) begin
-    a <= b; // atribuição não bloqueante
-    b <= a; // outra atribuição não bloqueante
+    a <= b; // atribuicao nao bloqueante
+    b <= a; // outra atribuicao nao bloqueante
 end
 \end{lstlisting}
 
