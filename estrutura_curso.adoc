@@ -11,7 +11,8 @@
   1.3 Metaestado, alta impedância e dont care
   1.4 Assign Básico
   1.5 Always
-  1.6 Operações Lógicas 
+  1.6 Operações Lógicas
+  1.7 Concatenação
 2. Aula 2 (Sophia)
   2.1 Escrita de Módulo (Dar os conceitos do que é um módulo)
   para futuramente explicar como escrever a lógica de um módulo
@@ -27,7 +28,6 @@
     3.2.2 Case
     3.2.3 Ternário (?)
 4. Aula 4 (João)
-  4.1 Concatenação
-  4.2 Assign avançado (diferença entre procedural e contínuo e = <=)
+  4.1 Assign avançado (diferença entre procedural e contínuo e = <=)
   4.3 Initial
-
+  4.4 Exemplos fodas com introdução à arte de escrever testbenchs.
