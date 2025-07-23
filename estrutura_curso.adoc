@@ -27,7 +27,7 @@
     3.2.1 If else
     3.2.2 Case
     3.2.3 Ternário (?)
+  3.3 Initial
 4. Aula 4 (João)
   4.1 Assign avançado (diferença entre procedural e contínuo e = <=)
-  4.3 Initial
-  4.4 Exemplos fodas com introdução à arte de escrever testbenchs.
+  4.2 Exemplos fodas com introdução à arte de escrever testbenchs.
