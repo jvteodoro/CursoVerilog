@@ -1,0 +1,190 @@
+%----------------------------------------------------------------------------------------
+%    PACKAGES AND THEMES
+%----------------------------------------------------------------------------------------
+
+\documentclass[aspectratio=169,xcolor=dvipsnames]{beamer}
+\usetheme{SimpleDarkBlue}
+
+\usepackage{hyperref}
+\usepackage{graphicx}
+\usepackage{booktabs}
+\usepackage{minted}
+\usepackage[portuguese]{babel}
+
+%----------------------------------------------------------------------------------------
+%    TITLE PAGE
+%----------------------------------------------------------------------------------------
+
+\title{Verilog}
+\subtitle{Tipos de Dados}
+
+\author{Diego Fontes de Avila}
+
+\institute
+{
+    Poliware \\
+    Escola Politécnica da Universidade de São Paulo
+}
+\date{\today}
+
+%----------------------------------------------------------------------------------------
+%    PRESENTATION SLIDES
+%----------------------------------------------------------------------------------------
+
+\begin{document}
+
+\begin{frame}
+    \titlepage
+\end{frame}
+
+\begin{frame}{Seções}
+    \tableofcontents
+\end{frame}
+
+%------------------------------------------------
+\section{Introdução}
+%------------------------------------------------
+
+\begin{frame}{Introdução}
+    Verilog oferece diversos tipos de dados para descrever circuitos digitais de maneira eficiente e precisa. Cada tipo de dado possui características específicas que determinam como os sinais são armazenados, manipulados e conectados dentro de um projeto.
+
+    Compreender as diferenças entre esses tipos é fundamental para escrever códigos corretos e otimizados em Verilog.
+\end{frame}
+
+%------------------------------------------------
+\section{Wire (Net)}
+%------------------------------------------------
+
+\begin{frame}
+    \Huge{\centerline{\textbf{Wire (Net)}}}
+\end{frame}
+
+\begin{frame}[fragile]{Wire (Net)}
+O tipo \texttt{wire} é utilizado para representar conexões físicas entre componentes. Ele é usado para sinais que são dirigidos por portas ou módulos.
+
+\begin{block}{Exemplo}
+\begin{minted}{verilog}
+wire a;
+wire [3:0] bus; // Vetor de 4 bits
+\end{minted}
+\end{block}
+
+\textbf{Características:}
+\begin{itemize}
+    \item Não pode ser atribuído dentro de blocos \texttt{always} ou \texttt{initial}.
+    \item Deve ser definido por uma atribuição contínua (\texttt{assign}) ou por uma porta.
+\end{itemize}
+\end{frame}
+
+%------------------------------------------------
+\section{Reg}
+%------------------------------------------------
+
+\begin{frame}
+    \Huge{\centerline{\textbf{Reg}}}
+\end{frame}
+
+\begin{frame}[fragile]{Reg}
+O tipo \texttt{reg} é utilizado para armazenar valores em blocos \texttt{always}. Ele representa um registrador de armazenamento.
+
+\begin{block}{Exemplo}
+\begin{minted}{verilog}
+reg b;
+reg [7:0] dado; // Vetor de 8 bits
+always @(posedge clk) begin
+    b <= 1'b1;
+    dado <= dado + 1;
+end
+\end{minted}
+\end{block}
+
+\textbf{Características:}
+\begin{itemize}
+    \item Pode ser atribuído dentro de blocos \texttt{always} ou \texttt{initial}.
+    \item Não representa necessariamente um registrador físico, depende da síntese.
+\end{itemize}
+\end{frame}
+
+%------------------------------------------------
+\section{Vetores}
+%------------------------------------------------
+
+\begin{frame}
+    \Huge{\centerline{\textbf{Vetores}}}
+\end{frame}
+
+\begin{frame}[fragile]{Vetores}
+Vetores são utilizados para representar múltiplos bits em uma única variável, como barramentos ou palavras de dados.
+
+\begin{block}{Exemplo}
+\begin{minted}{verilog}
+wire [15:0] endereco;
+reg [31:0] acumulador;
+\end{minted}
+\end{block}
+
+\textbf{Características:}
+\begin{itemize}
+    \item Podem ser usados tanto com \texttt{wire} quanto com \texttt{reg}.
+    \item O índice mais significativo é especificado primeiro: \texttt{[MSB:LSB]}.
+\end{itemize}
+\end{frame}
+
+%------------------------------------------------
+\section{Integer}
+%------------------------------------------------
+
+\begin{frame}
+    \Huge{\centerline{\textbf{Integer}}}
+\end{frame}
+
+\begin{frame}[fragile]{Integer}
+O tipo \texttt{integer} é utilizado para armazenar valores inteiros com sinal, geralmente para contadores ou variáveis auxiliares.
+
+\begin{block}{Exemplo}
+\begin{minted}{verilog}
+integer i;
+initial begin
+    for (i = 0; i < 10; i = i + 1) begin
+        // ...
+    end
+end
+\end{minted}
+\end{block}
+
+\textbf{Características:}
+\begin{itemize}
+    \item Tamanho padrão de 32 bits com sinal.
+    \item Usado principalmente em simulação e blocos \texttt{initial} ou \texttt{always}.
+\end{itemize}
+\end{frame}
+
+%------------------------------------------------
+\section{Real}
+%------------------------------------------------
+
+\begin{frame}
+    \Huge{\centerline{\textbf{Real}}}
+\end{frame}
+
+\begin{frame}[fragile]{Real}
+O tipo \texttt{real} é utilizado para representar números de ponto flutuante, geralmente em simulações.
+
+\begin{block}{Exemplo}
+\begin{minted}{verilog}
+real pi;
+initial begin
+    pi = 3.14159;
+end
+\end{minted}
+\end{block}
+
+\textbf{Características:}
+\begin{itemize}
+    \item Não pode ser sintetizado (uso apenas em simulação).
+    \item Útil para cálculos matemáticos em testbenches.
+\end{itemize}
+\end{frame}
+
+%------------------------------------------------
+\end{document}
