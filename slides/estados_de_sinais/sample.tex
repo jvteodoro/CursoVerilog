@@ -1,0 +1,141 @@
+%----------------------------------------------------------------------------------------
+%    PACKAGES AND THEMES
+%----------------------------------------------------------------------------------------
+
+\documentclass[aspectratio=169,xcolor=dvipsnames]{beamer}
+\usetheme{SimpleDarkBlue}
+
+\usepackage{hyperref}
+\usepackage{graphicx}
+\usepackage{booktabs}
+\usepackage{minted}
+\usepackage[portuguese]{babel}
+
+%----------------------------------------------------------------------------------------
+%    TITLE PAGE
+%----------------------------------------------------------------------------------------
+
+\title{Verilog}
+\subtitle{Estados de Sinais Especiais}
+
+\author{Diego Fontes de Avila}
+
+\institute
+{
+    Poliware \\
+    Escola Politécnica da Universidade de São Paulo
+}
+\date{\today}
+
+%----------------------------------------------------------------------------------------
+%    PRESENTATION SLIDES
+%----------------------------------------------------------------------------------------
+
+\begin{document}
+
+\begin{frame}
+    \titlepage
+\end{frame}
+
+\begin{frame}{Seções}
+    \tableofcontents
+\end{frame}
+
+%------------------------------------------------
+\section{Introdução}
+%------------------------------------------------
+
+\begin{frame}{Introdução}
+    Em Verilog, além dos valores binários tradicionais (0 e 1), existem outros estados de sinais que podem ser utilizados para representar condições especiais. Esses estados são especialmente úteis em simulações e na modelagem de circuitos digitais complexos.
+
+    Os principais estados especiais são:
+    \begin{itemize}
+        \item \texttt{x} (indeterminado)
+        \item \texttt{z} (alta impedância)
+        \item \texttt{?} (don't care)
+    \end{itemize}
+\end{frame}
+
+%------------------------------------------------
+\section{x (Indeterminado)}
+%------------------------------------------------
+
+\begin{frame}
+    \Huge{\centerline{\textbf{x (Indeterminado)}}}
+\end{frame}
+
+\begin{frame}[fragile]{x (Indeterminado)}
+O estado \texttt{x} é utilizado para representar um valor indeterminado ou desconhecido. Isso pode ocorrer quando um sinal não foi inicializado ou quando há conflito entre sinais.
+
+\begin{block}{Exemplo}
+\begin{minted}{verilog}
+reg a;
+initial begin
+    a = 1'bx; // a é inicializado como indeterminado
+end
+\end{minted}
+\end{block}
+
+\textbf{Características:}
+\begin{itemize}
+    \item Indica valor desconhecido ou não inicializado.
+    \item Muito usado em simulações para detectar problemas de inicialização ou conflitos.
+    \item Não deve ser usado em hardware real.
+\end{itemize}
+\end{frame}
+
+%------------------------------------------------
+\section{z (Alta Impedância)}
+%------------------------------------------------
+
+\begin{frame}
+    \Huge{\centerline{\textbf{z (Alta Impedância)}}}
+\end{frame}
+
+\begin{frame}[fragile]{z (Alta Impedância)}
+O estado \texttt{z} representa alta impedância, indicando que o fio não está dirigindo nem 0 nem 1 (desconectado).
+
+\begin{block}{Exemplo}
+\begin{minted}{verilog}
+assign saida = (controle) ? 1'bz : 1'b0;
+\end{minted}
+\end{block}
+
+\textbf{Características:}
+\begin{itemize}
+    \item Usado para modelar barramentos compartilhados.
+    \item Permite que múltiplos drivers compartilhem o mesmo fio.
+    \item Em hardware real, representa um pino "desconectado".
+\end{itemize}
+\end{frame}
+
+%------------------------------------------------
+\section{? (Don't Care)}
+%------------------------------------------------
+
+\begin{frame}
+    \Huge{\centerline{\textbf{? (Don't Care)}}}
+\end{frame}
+
+\begin{frame}[fragile]{? (Don't Care)}
+O estado \texttt{?} é utilizado para indicar que o valor de um sinal não é relevante em uma determinada condição, especialmente em instruções de seleção.
+
+\begin{block}{Exemplo}
+\begin{minted}{verilog}
+casez (entrada)
+    4'b10??: saida = 1; // bits menos significativos podem ser 0 ou 1
+    default: saida = 0;
+endcase
+\end{minted}
+\end{block}
+
+\textbf{Características:}
+\begin{itemize}
+    \item Usado em expressões de seleção (\texttt{casez}, \texttt{casex}).
+    \item Facilita a descrição de condições onde certos bits são irrelevantes.
+    \item Não representa um valor físico, apenas facilita a síntese e simulação.
+\end{itemize}
+\end{frame}
+
+%------------------------------------------------
+\end{document}
