@@ -1,0 +1,512 @@
+%----------------------------------------------------------------------------------------
+%    PACKAGES AND THEMES
+%----------------------------------------------------------------------------------------
+
+\documentclass[aspectratio=169,xcolor=dvipsnames]{beamer}
+\usetheme{SimpleDarkBlue}
+
+\usepackage{hyperref}
+\usepackage{graphicx}
+\usepackage{booktabs}
+\usepackage{minted}
+\usepackage[portuguese]{babel}
+
+%----------------------------------------------------------------------------------------
+%    TITLE PAGE
+%----------------------------------------------------------------------------------------
+
+\title{Verilog}
+\subtitle{Operadores}
+
+\author{João Victor Costa Teodoro}
+
+\institute
+{
+    Poliware \\
+    Escola Politécnica da Universidade de São Paulo
+}
+\date{\today}
+
+%----------------------------------------------------------------------------------------
+%    PRESENTATION SLIDES
+%----------------------------------------------------------------------------------------
+
+\begin{document}
+
+\begin{frame}
+    \titlepage
+\end{frame}
+
+\begin{frame}{Seções}
+    \tableofcontents
+\end{frame}
+
+%------------------------------------------------
+\section{Operadores Lógicos}
+%------------------------------------------------
+
+\begin{frame}
+    \Huge{\centerline{\textbf{Operadores Lógicos}}}
+\end{frame}
+
+\begin{frame}[fragile]{Operadores Lógicos}
+\begin{tabular}{ll}
+\textbf{Função} & \textbf{Operador} \\
+Negação Lógica & \texttt{!} \\
+Or Lógico      & \texttt{||} \\
+And Lógico     & \texttt{\&\&} \\
+Igualdade Lógica & \texttt{==} \\
+Inegualdade Lógica & \texttt{!=} \\
+\end{tabular}
+\end{frame}
+
+%------------------------------------------------
+\section{Precedência de Operadores}
+%------------------------------------------------
+
+\begin{frame}
+    \Huge{\centerline{\textbf{Precedência de Operadores}}}
+\end{frame}
+
+\begin{frame}[fragile]{Precedência de Operadores}
+A precedência dos operadores em Verilog segue a ordem (da maior para a menor):
+
+\begin{itemize}
+    \item {\texttt{+}, \texttt{-}, \texttt{!}, \texttt{\textasciitilde}, \texttt{\&}, \texttt{\textasciitilde\&}, \texttt{|}, \texttt{\textasciitilde|}, \texttt{\textasciicircum}, \texttt{\textasciitilde\textasciicircum}, \texttt{\textasciicircum\textasciitilde}}
+    \item {\texttt{**}}
+    \item {\texttt{*}, \texttt{/}, \texttt{\%}}
+    \item {\texttt{+}, \texttt{-}}
+    \item {\texttt{<<}, \texttt{>>}, \texttt{<<<}, \texttt{>>>}}
+    \item {\texttt{<}, \texttt{<=}, \texttt{>}, \texttt{>=}}
+    \item {\texttt{==}, \texttt{!=}, \texttt{===}, \texttt{!==}}
+    \item {\texttt{\&}}
+    \item {\texttt{\textasciicircum}, \texttt{\textasciicircum\textasciitilde}, \texttt{\textasciitilde\textasciicircum}}
+    \item {\texttt{|}}
+    \item {\texttt{\&\&}}
+    \item {\texttt{||}}
+    \item {\texttt{?:}}
+    \item {\texttt{\{\}}, \texttt{\{\{\}\}}}
+\end{itemize}
+\scriptsize{Com exceção do operador condicional, todos os operadores são avaliados da esquerda para a direita.}
+\end{frame}
+
+%------------------------------------------------
+\section{Ordem de Avaliação}
+%------------------------------------------------
+
+\begin{frame}
+    \Huge{\centerline{\textbf{Ordem de Avaliação}}}
+\end{frame}
+
+\begin{frame}[fragile]{Short-circuiting}
+Uma expressão pode ter seu resultado conhecido sem que todas as partes sejam avaliadas ("short-circuiting").
+
+\begin{block}{Exemplo}
+\begin{minted}{verilog}
+reg reg1, reg2, reg3, reg4;
+value = reg4 & (reg2 & (reg1 | reg4) | reg1)
+\end{minted}
+\end{block}
+
+Se \texttt{reg4} for zero, o restante da expressão não precisa ser avaliado.
+\end{frame}
+
+%------------------------------------------------
+\section{Signed e Unsigned}
+%------------------------------------------------
+
+\begin{frame}
+    \Huge{\centerline{\textbf{Signed e Unsigned}}}
+\end{frame}
+
+\begin{frame}[fragile]{Signed e Unsigned}
+\scriptsize{Os tipos \texttt{reg} ou \texttt{wire} são tratados como unsigned, a menos que declarados como \texttt{signed}. Tipos \texttt{integer}, \texttt{real} ou \texttt{realtime} são signed por padrão.}
+
+\begin{block}{Exemplo}
+\begin{minted}{verilog}
+// operator_ex_sign_unsign.v
+module operator_ex_sign_unsign();
+    wire [3:0] w1 = -4;
+    wire [3:0] w2 =  3;
+    wire signed [3:0] sig_w1 = w1;
+    wire [3:0] sum = w1+w2;
+    wire signed [3:0] sig_sum = w1+w2; 
+    initial begin
+        $display("w1: dec %d, bin %b", w1, w1);
+        $display("w2: dec %d, bin %b", w2, w2);
+        $display("signed_w1: dec %d, bin %b", sig_w1, sig_w1);
+        $display("Sum: %d, %b", sum, sum);
+        $display("Signed sum: %d, %b", sig_sum, sig_sum);
+    end
+endmodule
+\end{minted}
+\end{block}
+\end{frame}
+\begin{frame}[fragile]{Signed e Unsigned}
+\textbf{Saída:}
+\begin{verbatim}
+// operator_ex_sign_unsign.txt
+w1: dec 12, bin 1100
+w2: dec  3, bin 0011
+signed_w1: dec -4, bin 1100
+Sum: 15, 1111
+Signed sum: -1, 1111
+\end{verbatim}
+\end{frame}
+
+%------------------------------------------------
+\section{Operadores Aritméticos}
+%------------------------------------------------
+
+\begin{frame}
+    \Huge{\centerline{\textbf{Operadores Aritméticos}}}
+\end{frame}
+
+\begin{frame}[fragile]{Operadores Aritméticos}
+\begin{tabular}{ll}
+\textbf{Expressão} & \textbf{Descrição} \\
+a+b & soma 'a' e 'b' \\
+a-b & subtrai 'a' e 'b' \\
+a*b & multiplica 'a' e 'b' \\
+a/b & divide 'a' e 'b' \\
+a\%b & 'a' módulo 'b' \\
+a**b & 'a' elevado a 'b' \\
+\end{tabular}
+
+\textbf{Nota:} Divisão ou módulo por zero resulta em 'x'. O resultado de módulo tem o sinal do primeiro operando.
+\end{frame}
+
+%------------------------------------------------
+\section{Operadores Bitwise}
+%------------------------------------------------
+
+\begin{frame}
+    \Huge{\centerline{\textbf{Operadores Bitwise}}}
+\end{frame}
+
+\begin{frame}[fragile]{Operadores Bitwise}
+Os operadores bitwise são: \texttt{\&}, \texttt{|}, \texttt{\^}, \texttt{\textasciitilde}, \texttt{\^{} \textasciitilde}, \texttt{\textasciitilde\^{}}. O operador \texttt{\textasciitilde} é unário, os demais são binários.
+\end{frame}
+
+\begin{frame}[fragile]{Tabelas Verdade Bitwise}
+\textbf{\&}
+\begin{tabular}{ccccc}
+\texttt{\&} & 0 & 1 & x & z \\
+0 & 0 & 0 & 0 & 0 \\
+1 & 0 & 1 & x & z \\
+x & 0 & x & x & x \\
+z & 0 & x & x & x \\
+\end{tabular}
+
+\vspace{1em}
+\textbf{|}
+\begin{tabular}{ccccc}
+\texttt{|} & 0 & 1 & x & z \\
+0 & 0 & 1 & x & z \\
+1 & 1 & 1 & 1 & 1 \\
+x & x & 1 & x & x \\
+z & x & 1 & x & x \\
+\end{tabular}
+\end{frame}
+
+\begin{frame}[fragile]{Tabelas Verdade Bitwise (cont.)}
+\textbf{\^}
+\begin{tabular}{ccccc}
+\texttt{\^} & 0 & 1 & x & z \\
+0 & 0 & 1 & x & x \\
+1 & 1 & 0 & x & x \\
+x & x & x & x & x \\
+z & x & x & x & x \\
+\end{tabular}
+
+\vspace{1em}
+\textbf{\textasciitilde}
+\begin{tabular}{cc}
+\texttt{\~} &   \\
+0 & 1 \\
+1 & 0 \\
+x & x \\
+z & x \\
+\end{tabular}
+\end{frame}
+
+\begin{frame}[fragile]{Tabelas Verdade Bitwise (cont.)}
+\textbf{\textasciitilde\textasciicircum} ou \textbf{\textasciicircum\textasciitilde}
+\begin{tabular}{ccccc}
+\texttt{\textasciitilde\textasciicircum}, \texttt{\textasciicircum\textasciitilde} & 0 & 1 & x & z \\
+\hline
+0 & 1 & 0 & x & x \\
+1 & 0 & 1 & x & x \\
+x & x & x & x & x \\
+z & x & x & x & x \\
+\end{tabular}
+\end{frame}
+
+%------------------------------------------------
+\section{Operadores Unários}
+%------------------------------------------------
+
+\begin{frame}
+    \Huge{\centerline{\textbf{Operadores Unários}}}
+\end{frame}
+
+\begin{frame}[fragile]{Operadores Unários}
+\begin{tabular}{ll}
+\texttt{+m} & Unário positivo \\
+\texttt{-m} & Unário negativo \\
+\end{tabular}
+
+Os operadores unários + e - retornam respectivamente o mesmo valor e o valor multiplicado por -1.
+\end{frame}
+
+\begin{frame}[fragile]{Exemplo de Operadores Unários}
+\small{
+\begin{block}{Exemplo}
+\begin{minted}{verilog}
+// operator_ex_unario.v
+module operator_ex_unario();
+    wire signed [3:0] val = -4;
+    wire signed [3:0] val2 = 4;
+    wire signed [3:0] plus_val = +val;
+    wire signed [3:0] minus_val = -val;
+    wire signed [3:0] plus_val2 = +val2;
+    wire signed [3:0] minus_val2 = -val2;
+    initial begin
+        $display("val: %d\nplus_val: %d\nminus_val: %d\n", val,
+        plus_val, minus_val);
+        $display("val2: %d\nplus_val2: %d\nminus_val2: %d", val2,
+        plus_val2, minus_val2);
+    end
+endmodule
+\end{minted}
+\end{block}
+}
+
+\end{frame}
+
+\begin{frame}[fragile]{Exemplo de Operadores Unários}
+\textbf{Saída:}
+\begin{verbatim}
+// operator_ex_unario.txt
+val: -4
+plus_val: -4
+minus_val:  4
+
+val2:  4
+plus_val2:  4
+minus_val2: -4
+\end{verbatim}
+\end{frame}
+
+%------------------------------------------------
+\section{Operadores Unários de Redução}
+%------------------------------------------------
+
+\begin{frame}
+    \Huge{\centerline{\textbf{Operadores Unários de Redução}}}
+\end{frame}
+
+\begin{frame}[fragile]{Operadores de Redução}
+\begin{tabular}{ll}
+\textbf{Operador} & \textbf{Função} \\
+\texttt{\&}   & 'and' de redução \\
+\texttt{\textasciitilde\&} & 'nand' de redução \\
+\texttt{\textbar}    & 'or' de redução \\
+\texttt{\textasciicircum}   & 'xor' de redução \\
+\texttt{\textasciitilde\textbar}  & 'nor' de redução \\
+\texttt{\textasciitilde\textasciicircum} & 'xnor' de redução \\
+\end{tabular}
+
+Executam operações lógicas bitwise em todos os bits do operando.
+\end{frame}
+
+\begin{frame}[fragile]{Exemplo de Redução}
+\scriptsize{
+\begin{block}{Exemplo}
+\begin{minted}{verilog}
+// operator_ex_reduction.v
+module operator_ex_reduction();
+    reg [3:0] a;
+    wire red_and = &a;
+    wire red_or = |a;
+    wire red_xor = ^a;
+    wire red_nand = ~&a;
+    wire red_nor = ~|a;
+    wire red_xnor = ~^a;
+    initial begin 
+        $monitor("&: %b; |: %b; ^: %b; ~&: %b; ~|: %b; ~^: %b",
+        red_and, red_or, red_xor, red_nand, red_nor, red_xnor);
+        a = 4'b0000;
+        #1 a = 4'b0101;
+        #1 a = 4'b1111;
+        #1 a = 4'b0100;
+    end
+endmodule
+\end{minted}
+\end{block}
+}
+
+\end{frame}
+
+\begin{frame}[fragile]{Exemplo de Redução}
+\textbf{Saída:}
+\begin{verbatim}
+// operator_ex_reduction.txt
+&: 0; |: 0; ^: 0; ~&: 1; ~|: 1; ~^: 1
+&: 0; |: 1; ^: 0; ~&: 1; ~|: 0; ~^: 1
+&: 1; |: 1; ^: 0; ~&: 0; ~|: 0; ~^: 1
+&: 0; |: 1; ^: 1; ~&: 1; ~|: 0; ~^: 0
+\end{verbatim}
+\end{frame}
+
+%------------------------------------------------
+\section{Operadores de Deslocamento (Shift)}
+%------------------------------------------------
+
+\begin{frame}
+    \Huge{\centerline{\textbf{Operadores de Deslocamento (Shift)}}}
+\end{frame}
+
+\begin{frame}[fragile]{Operadores de Deslocamento}
+Existem dois tipos de deslocamento: lógicos e aritméticos.
+
+\tiny{
+\begin{block}{Exemplo}
+\begin{minted}{verilog}
+// operator_ex_shift.v
+module operator_ex_shift();
+    wire [3:0] a = 8;
+    wire signed [3:0] a_sig = 8;
+    reg [3:0] b;
+    reg [3:0] c;
+    reg [3:0] d;
+    initial begin
+        $display("Right Shift");
+        b = a >> 2;
+        c = a_sig >>> 2;
+        d = a_sig >> 2;
+        $display("a: %b\nb: %b\nc: %b\nd: %b", a, b, c, d);
+        $display("Left Shift with reg values");
+        b = b << 2;
+        c = c <<< 2;
+        d = d << 2;
+        $display("a: %b\nb: %b\nc: %b\nd: %b", a, b, c, d);
+        $display("Left shift with wire values");
+        b = a << 2;
+        c = a_sig <<< 2;
+        d = a_sig << 2;
+        $display("a: %b\nb: %b\nc: %b\nd: %b", a, b, c, d);
+    end
+endmodule
+\end{minted}
+\end{block}
+}
+
+\end{frame}
+
+\begin{frame}[fragile]{Operadores de Deslocamento}
+\textbf{Saída:}
+\small{
+\begin{verbatim}
+// operator_ex_shift.txt
+Right Shift
+a: 1000
+b: 0010
+c: 1110
+d: 0010
+Left Shift with reg values
+a: 1000
+b: 1000
+c: 1000
+d: 1000
+Left shift with wire values
+a: 1000
+b: 0000
+c: 0000
+d: 0000
+\end{verbatim}
+}
+\end{frame}
+
+%------------------------------------------------
+\section{Concatenação e Replicação}
+%------------------------------------------------
+
+\begin{frame}
+    \Huge{\centerline{\textbf{Concatenação e Replicação}}}
+\end{frame}
+
+\begin{frame}[fragile]{Concatenação e Replicação}
+Concatenação une bits de várias expressões em uma só, usando \texttt{\{ \}}.
+
+\begin{block}{Exemplo}
+\scriptsize{
+\begin{minted}{verilog}
+// operator_ex_concatenation.v
+module operator_ex_concatenation();
+    parameter SIZE = 16;
+    reg [3:0] a;
+    reg [3:0] b;
+    wire [7:0] ab1;
+    wire [7:0] ab2;
+    wire [SIZE-1:0] ab3;
+    assign ab1 = {a,b};
+    assign ab2 = {{4{1'b1}},a};
+    assign ab3 = {{SIZE-4{1'b1}},a};
+    initial begin
+        a = 4'b0101;
+        b = 4'b1100;
+        $display("a: %b; b: %b", a, b);
+        $display("ab1: %b\nab2: %b\nab3: %b", ab1, ab2, ab3);
+    end
+endmodule
+\end{minted}
+\end{block}
+}
+\end{frame}
+
+\begin{frame}[fragile]{Concatenação e Replicação}
+\textbf{Saída:}
+\begin{verbatim}
+// operator_ex_concatenation.txt
+a: 0101; b: 1100
+ab1: 01011100
+ab2: 11110101
+ab3: 1111111111110101
+\end{verbatim}
+\end{frame}
+
+%------------------------------------------------
+\section{Operadores e Tipos Reais}
+%------------------------------------------------
+
+\begin{frame}
+    \Huge{\centerline{\textbf{Operadores e Tipos Reais}}}
+\end{frame}
+
+\begin{frame}[fragile]{Operadores válidos para reais}
+\begin{tabular}{ll}
+\textbf{Operadores} & \textbf{Descrição} \\
++ - & Unários \\
++ - * / ** & Aritméticos \\
+> >= < <= & Relacional \\
+! \&\& || & Lógico \\
+== != & Igualdade lógica \\
+?: & Condicional \\
+\end{tabular}
+\end{frame}
+
+\begin{frame}[fragile]{Operadores inválidos para reais}
+\begin{tabular}{ll}
+\textbf{Operadores} & \textbf{Descrição} \\
+\texttt{\{\}} \texttt{\{\{\}\}} & Concatenação, replicate \\
+\texttt{\%} & Módulo \\
+\texttt{===} \texttt{!==} & Case equality \\
+\texttt{\textasciitilde} \texttt{\&} \texttt{|} \texttt{\textasciicircum} \texttt{\textasciicircum\textasciitilde} \texttt{\textasciitilde\textasciicircum} & Bitwise \\
+\texttt{\textasciicircum} \texttt{\textasciicircum\textasciitilde} \texttt{\textasciitilde\textasciicircum} \texttt{\&} \texttt{\textasciitilde\&} \texttt{|} \texttt{\textasciitilde|} & Redução \\
+\texttt{<<} \texttt{>>} \texttt{<<<} \texttt{>>>} & Deslocamento (shift) \\
+\end{tabular}
+\end{frame}
+
+%------------------------------------------------
+\end{document}

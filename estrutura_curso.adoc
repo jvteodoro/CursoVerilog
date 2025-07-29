@@ -11,8 +11,7 @@
   1.3 Metaestado, alta impedância e dont care
   1.4 Assign Básico
   1.5 Always
-  1.6 Operações Lógicas
-  1.7 Concatenação
+  1.6 Operações (exceto Signed e Unsigned)
 2. Aula 2 (Sophia)
   2.1 Escrita de Módulo (Dar os conceitos do que é um módulo)
   para futuramente explicar como escrever a lógica de um módulo
