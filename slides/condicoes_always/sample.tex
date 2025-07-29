@@ -1,0 +1,137 @@
+%----------------------------------------------------------------------------------------
+%    PACKAGES AND THEMES
+%----------------------------------------------------------------------------------------
+
+\documentclass[aspectratio=169,xcolor=dvipsnames]{beamer}
+\usetheme{SimpleDarkBlue}
+
+\usepackage{hyperref}
+\usepackage{graphicx}
+\usepackage{booktabs}
+\usepackage{minted}
+\usepackage[portuguese]{babel}
+
+%----------------------------------------------------------------------------------------
+%    TITLE PAGE
+%----------------------------------------------------------------------------------------
+
+\title{Verilog}
+\subtitle{Bloco always e Condições}
+
+\author{Matheus Davi Leão}
+
+\institute
+{
+    Poliware \\
+    Escola Politécnica da Universidade de São Paulo
+}
+\date{\today}
+
+%----------------------------------------------------------------------------------------
+%    PRESENTATION SLIDES
+%----------------------------------------------------------------------------------------
+
+\begin{document}
+
+\begin{frame}
+    \titlepage
+\end{frame}
+
+\begin{frame}{Seções}
+    \tableofcontents
+\end{frame}
+
+%------------------------------------------------
+\section{Introdução}
+%------------------------------------------------
+
+\begin{frame}{Introdução}
+    O bloco \texttt{always} em Verilog é fundamental para descrever o comportamento de circuitos digitais. Ele permite definir blocos de código que serão executados sempre que ocorrer uma mudança em sinais de entrada ou uma condição específica for atendida.
+
+    Pode ser usado para lógica combinacional ou sequencial, dependendo da sensibilidade do bloco.
+\end{frame}
+
+%------------------------------------------------
+\section{Always Combinacional}
+%------------------------------------------------
+
+\begin{frame}
+    \Huge{\centerline{\textbf{Always Combinacional}}}
+\end{frame}
+
+\begin{frame}[fragile]{Always Combinacional}
+Para lógica combinacional, utiliza-se o bloco \texttt{always} com \texttt{@(*)}, garantindo que o bloco seja reavaliado sempre que qualquer sinal de entrada mudar.
+
+\begin{block}{Exemplo}
+\begin{minted}{verilog}
+always @(*) begin
+    saida = entrada1 + entrada2;
+end
+\end{minted}
+\end{block}
+
+\textbf{Características:}
+\begin{itemize}
+    \item Atualiza a saída sempre que qualquer entrada mudar.
+    \item Deve-se usar atribuição \texttt{=}, que é bloqueante.
+    \item Ideal para descrever lógica combinacional.
+\end{itemize}
+\end{frame}
+
+%------------------------------------------------
+\section{Always Sequencial}
+%------------------------------------------------
+
+\begin{frame}
+    \Huge{\centerline{\textbf{Always Sequencial}}}
+\end{frame}
+
+\begin{frame}[fragile]{Always Sequencial}
+Para lógica sequencial, o bloco \texttt{always} é sensível à borda de subida (\texttt{posedge}) ou descida (\texttt{negedge}) de um sinal de clock.
+
+\begin{block}{Exemplo}
+\begin{minted}{verilog}
+always @(posedge clk) begin
+    saida <= entrada;
+end
+\end{minted}
+\end{block}
+
+\textbf{Características:}
+\begin{itemize}
+    \item Executado em eventos de clock.
+    \item Utiliza atribuição não bloqueante (\texttt{<=}).
+    \item Ideal para descrever registradores e máquinas de estado.
+\end{itemize}
+\end{frame}
+
+%------------------------------------------------
+\section{Atribuições Não Bloqueantes}
+%------------------------------------------------
+
+\begin{frame}
+    \Huge{\centerline{\textbf{Atribuições Não Bloqueantes}}}
+\end{frame}
+
+\begin{frame}[fragile]{Atribuições Não Bloqueantes}
+O operador \texttt{<=} indica atribuição não bloqueante, fundamental em lógica sequencial para evitar problemas de ordem de atualização.
+
+\begin{block}{Exemplo}
+\begin{minted}{verilog}
+always @(posedge clk) begin
+    a <= b;
+    b <= a;
+end
+\end{minted}
+\end{block}
+
+\textbf{Características:}
+\begin{itemize}
+    \item Todas as atribuições são realizadas ao final do ciclo de clock.
+    \item A ordem das atribuições não interfere no resultado.
+    \item Recomendado para circuitos sequenciais.
+\end{itemize}
+\end{frame}
+
+%------------------------------------------------
+\end{document}
