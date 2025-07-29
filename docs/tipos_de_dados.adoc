@@ -1,0 +1,87 @@
+= Tipos de Dados
+Verilog oferece diversos tipos de dados para descrever circuitos digitais de maneira eficiente e precisa. Cada tipo de dado possui características específicas que determinam como os sinais são armazenados, manipulados e conectados dentro de um projeto. Compreender as diferenças entre esses tipos é fundamental para escrever códigos corretos e otimizados em Verilog.
+
+== Wire (Net)
+O tipo `wire` é utilizado para representar conexões físicas entre componentes. Ele é usado para sinais que são dirigidos por portas ou módulos.
+
+Exemplo:
+[source,verilog]
+----
+wire a;
+wire [3:0] bus; // Vetor de 4 bits
+----
+
+Características:
+
+* Não pode ser atribuído dentro de blocos `always` ou `initial`.
+* Deve ser definido por uma atribuição contínua (`assign`) ou por uma porta.
+
+== Reg
+O tipo `reg` é utilizado para armazenar valores em blocos `always`. Ele representa um registrador de armazenamento.
+
+Exemplo:
+[source,verilog]
+----
+reg b;
+reg [7:0] dado; // Vetor de 8 bits
+always @(posedge clk) begin
+    b <= 1'b1;
+    dado <= dado + 1;
+end
+----
+
+Características:
+
+* Pode ser atribuído dentro de blocos `always` ou `initial`.
+* Não representa necessariamente um registrador físico, depende da síntese.
+
+== Vetores
+Vetores são utilizados para representar múltiplos bits em uma única variável, como barramentos ou palavras de dados.
+
+Exemplo:
+[source,verilog]
+----
+wire [15:0] endereco;
+reg [31:0] acumulador;
+----
+
+Características:
+
+* Podem ser usados tanto com `wire` quanto com `reg`.
+* O índice mais significativo é especificado primeiro: `[MSB:LSB]`.
+
+== Integer
+O tipo `integer` é utilizado para armazenar valores inteiros com sinal, geralmente para contadores ou variáveis auxiliares.
+
+Exemplo:
+[source,verilog]
+----
+integer i;
+initial begin
+    for (i = 0; i < 10; i = i + 1) begin
+        // ...
+    end
+end
+----
+
+Características:
+
+* Tamanho padrão de 32 bits com sinal.
+* Usado principalmente em simulação e blocos `initial` ou `always`.
+
+== Real
+O tipo `real` é utilizado para representar números de ponto flutuante, geralmente em simulações.
+
+Exemplo:
+[source,verilog]
+----
+real pi;
+initial begin
+    pi = 3.14159;
+end
+----
+
+Características:
+
+* Não pode ser sintetizado (uso apenas em simulação).
+* Útil para cálculos matemáticos em testbenches.
