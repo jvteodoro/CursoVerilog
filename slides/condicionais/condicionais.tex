@@ -1,37 +1,43 @@
-\documentclass{article}
-\usepackage[utf8]{inputenc}
-\usepackage[brazil]{babel}
-\usepackage{listings}
-\usepackage{xcolor}
+%----------------------------------------------------------------------------------------
+%    PACKAGES AND THEMES
+%----------------------------------------------------------------------------------------
 
-\lstdefinelanguage{Verilog}{
-  morekeywords={module, input, output, reg, always, if, else, begin, end, case, default},
-  sensitive=true,
-  morecomment=[l]{//},
-  morestring=[b]",
-}
+\documentclass[aspectratio=169,xcolor=dvipsnames]{beamer}
+\usetheme{SimpleDarkBlue}
 
-\lstset{
-  language=Verilog,
-  basicstyle=\ttfamily\small,
-  keywordstyle=\color{blue},
-  commentstyle=\color{gray},
-  stringstyle=\color{red},
-  showstringspaces=false,
-  breaklines=true,
-  frame=single,
-  tabsize=2
-}
+\usepackage{hyperref}
+\usepackage{graphicx}
+\usepackage{booktabs}
+\usepackage{minted}
+\usepackage[portuguese]{babel}
+
+%----------------------------------------------------------------------------------------
+%    TITLE PAGE
+%----------------------------------------------------------------------------------------
 
 \title{Condicionais em Verilog}
-\date{}
+\author{Matheus Davi Leão}
+\institute
+{
+    Poliware \\
+    Escola Politécnica da Universidade de São Paulo
+}
+\date{\today}
+
+%----------------------------------------------------------------------------------------
+%    PRESENTATION SLIDES
+%----------------------------------------------------------------------------------------
 
 \begin{document}
 
-\maketitle
+\begin{frame}
+    \titlepage
+\end{frame}
 
-\section*{Condicionais}
-
+\begin{frame}{Seções}
+    \tableofcontents
+\end{frame}
+\begin{frame}{Condicionais}
 Os principais operadores que utilizamos para condicionais em Verilog são:
 
 \begin{itemize}
@@ -39,22 +45,31 @@ Os principais operadores que utilizamos para condicionais em Verilog são:
   \item \texttt{else}
   \item \texttt{case}
 \end{itemize}
+\end{frame}
 
-\subsection*{if e else}
+%------------------------------------------------
+\section{if e else}
+%------------------------------------------------
 
+\begin{frame}[fragile]{if e else}
 \texttt{if} e \texttt{else} são utilizados para executar blocos de código com base em comparações lógicas (booleanas). A estrutura básica é:
 
-\begin{lstlisting}
+\begin{block}{Estrutura Básica}
+\begin{minted}{verilog}
 if (condição) begin
     // codigo a ser executado se a condição for verdadeira
 end else begin
     // codigo a ser executado se a condição for falsa
 end
-\end{lstlisting}
+\end{minted}
+\end{block}
+\end{frame}
 
+\begin{frame}[fragile]{if sem else}
 Note que, dependendo do caso, não é necessário o uso de um \texttt{else} após um \texttt{if}:
 
-\begin{lstlisting}
+\begin{block}{Exemplo}
+\begin{minted}{verilog}
 module exemplo(
     input entrada,
     output [3:0] saida 
@@ -66,13 +81,17 @@ module exemplo(
         saida = 4'b0010; // se entrada for 1, saida será 0010
     end
 endmodule
-\end{lstlisting}
+\end{minted}
+\end{block}
 
 No caso acima, se a entrada for 1, a saída será 0010, caso contrário, a saída permanecerá com o valor inicial de 0000. Portanto, não é necessário um bloco \texttt{else}.
+\end{frame}
 
+\begin{frame}[fragile]{if com else}
 Agora, para o caso abaixo, o uso de \texttt{else} é necessário, pois se não, nosso output \texttt{saida} apresentaria um valor indefinido (metaestado):
 
-\begin{lstlisting}
+\begin{block}{Exemplo}
+\begin{minted}{verilog}
 module exemplo(
     input entrada,
     output [3:0] saida 
@@ -87,13 +106,19 @@ module exemplo(
         end
     end
 endmodule
-\end{lstlisting}
+\end{minted}
+\end{block}
+\end{frame}
 
-\subsection*{case}
+%------------------------------------------------
+\section{case}
+%------------------------------------------------
 
+\begin{frame}[fragile]{case}
 O \texttt{case} é utilizado para comparar uma variável com múltiplos valores possíveis, semelhante ao \texttt{switch} em outras linguagens. A estrutura básica é:
 
-\begin{lstlisting}
+\begin{block}{Estrutura Básica}
+\begin{minted}{verilog}
 case (variavel)
     valor1: begin
         // codigo para valor1
@@ -105,11 +130,15 @@ case (variavel)
         // codigo para caso nenhum valor corresponda
     end
 endcase
-\end{lstlisting}
+\end{minted}
+\end{block}
+\end{frame}
 
+\begin{frame}[fragile]{Exemplo de case}
 Um exemplo simples:
 
-\begin{lstlisting}
+\begin{block}{Exemplo}
+\begin{minted}{verilog}
 module exemplo(
     input [1:0] entrada,
     output reg [3:0] saida
@@ -124,8 +153,35 @@ module exemplo(
         endcase
     end
 endmodule
-\end{lstlisting}
+\end{minted}
+\end{block}
+\end{frame}
 
+\begin{frame}{Dica Importante}
 Nunca se esqueça de declarar um \texttt{default}, mesmo que seu \texttt{case} tenha todas as possibilidades. Isso é uma boa prática para evitar metaestados indesejados. Por exemplo, no código acima, se a sua entrada estiver em um metaestado, a saída será 0000, evitando assim a propagação de um comportamento indefinido.
-
+\end{frame}
+%------------------------------------------------
+\section{Ternário}
+%------------------------------------------------
+\begin{frame}[fragile]{Operador Ternário}
+O operador ternário é uma forma concisa de escrever uma expressão condicional. A sintaxe é:
+\begin{block}{Sintaxe}
+\begin{minted}{verilog}
+variavel = (condicao) ? valor_se_verdadeiro : valor_se_falso;
+\end{minted}
+\end{block}
+\begin{block}{Exemplo}
+\begin{minted}{verilog}
+module exemplo(
+    input entrada,
+    output reg [3:0] saida
+);
+    always @(entrada) begin
+        saida = (entrada == 1'b1) ? 4'b0010 : 4'b0000; // se entrada for 1, saida sera 0010, caso contrario sera 0000
+    end
+endmodule
+\end{minted}
+\end{block}
+\end{frame}
 \end{document}
+%----

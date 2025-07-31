@@ -1,37 +1,47 @@
-\documentclass{article}
-\usepackage[utf8]{inputenc}
-\usepackage[brazil]{babel}
-\usepackage{listings}
-\usepackage{xcolor}
+%----------------------------------------------------------------------------------------
+%    PACKAGES AND THEMES
+%----------------------------------------------------------------------------------------
 
-\lstdefinelanguage{Verilog}{
-  morekeywords={module, input, output, reg, wire, integer, always, begin, end, if, else, for, while, repeat, forever},
-  sensitive=true,
-  morecomment=[l]{//},
-  morestring=[b]",
-}
+\documentclass[aspectratio=169,xcolor=dvipsnames]{beamer}
+\usetheme{SimpleDarkBlue}
 
-\lstset{
-  language=Verilog,
-  basicstyle=\ttfamily\small,
-  keywordstyle=\color{blue},
-  commentstyle=\color{gray},
-  stringstyle=\color{red},
-  showstringspaces=false,
-  breaklines=true,
-  frame=single,
-  tabsize=2
-}
+\usepackage{hyperref}
+\usepackage{graphicx}
+\usepackage{booktabs}
+\usepackage{minted}
+\usepackage[portuguese]{babel}
+
+%----------------------------------------------------------------------------------------
+%    TITLE PAGE
+%----------------------------------------------------------------------------------------
 
 \title{Laços de Repetição em Verilog}
-\date{}
+\author{Matheus Davi Leão}
+\institute{
+    Poliware \\
+    Escola Politécnica da Universidade de São Paulo
+}
+\date{\today}
+
+%----------------------------------------------------------------------------------------
+%    PRESENTATION SLIDES
+%----------------------------------------------------------------------------------------
 
 \begin{document}
 
-\maketitle
+\begin{frame}
+    \titlepage
+\end{frame}
 
-\section*{Laços de Repetição}
+\begin{frame}{Seções}
+    \tableofcontents
+\end{frame}
 
+%------------------------------------------------
+\section{Laços de Repetição}
+%------------------------------------------------
+
+\begin{frame}{Laços de Repetição}
 Assim como em outras linguagens, \textbf{Verilog} também possui estruturas de repetição, que são úteis para executar blocos de código várias vezes. As principais estruturas de repetição em Verilog são:
 
 \begin{itemize}
@@ -40,20 +50,33 @@ Assim como em outras linguagens, \textbf{Verilog} também possui estruturas de r
   \item \texttt{repeat}
   \item \texttt{forever}
 \end{itemize}
+\end{frame}
 
-\section*{For}
+%------------------------------------------------
+\section{For}
+%------------------------------------------------
 
+\begin{frame}
+    \Huge{\centerline{\textbf{For}}}
+\end{frame}
+
+\begin{frame}[fragile]{For}
 A estrutura \texttt{for} é utilizada para repetir um bloco de código enquanto uma condição for satisfeita. A sintaxe básica é:
 
-\begin{lstlisting}
+\begin{block}{Sintaxe}
+\begin{minted}{verilog}
 for (inicializacao; condicao; incremento) begin
     // codigo a ser executado
 end
-\end{lstlisting}
+\end{minted}
+\end{block}
 
 A inicialização é executada uma vez antes do loop, a condição é verificada antes de cada iteração e o incremento é executado após cada iteração. Aqui está um exemplo:
+\end{frame}
 
-\begin{lstlisting}
+\begin{frame}[fragile]{Exemplo de For}
+\begin{block}{Exemplo}
+\begin{minted}{verilog}
 module exemplo(
     input [3:0] entrada,
     output reg [3:0] saida
@@ -68,23 +91,37 @@ module exemplo(
         end
     end
 endmodule 
-\end{lstlisting}
+\end{minted}
+\end{block}
 
 Neste exemplo, o loop \texttt{for} percorre cada bit da entrada e, se o bit for 1, seta o bit correspondente na saída para 1.
+\end{frame}
 
-\section*{While}
+%------------------------------------------------
+\section{While}
+%------------------------------------------------
 
+\begin{frame}
+    \Huge{\centerline{\textbf{While}}}
+\end{frame}
+
+\begin{frame}[fragile]{While}
 A estrutura \texttt{while} executa um bloco de código enquanto uma condição for verdadeira. A sintaxe básica é:
 
-\begin{lstlisting}
+\begin{block}{Sintaxe}
+\begin{minted}{verilog}
 while (condicao) begin
     // codigo a ser executado
 end
-\end{lstlisting}
+\end{minted}
+\end{block}
 
 Aqui está um exemplo:
+\end{frame}
 
-\begin{lstlisting}
+\begin{frame}[fragile]{Exemplo de While}
+\begin{block}{Exemplo}
+\begin{minted}{verilog}
 module exemplo(
     input [3:0] entrada,
     output reg [3:0] saida
@@ -94,54 +131,117 @@ module exemplo(
         saida = 4'b0000; // valor inicial da saida
         while (i < 4) begin
             if (entrada[i] == 1'b1) begin
-                saida[i] = 1'b1; // se o bit i da entrada for 1, seta o bit i da saida para 1
+                saida[i] = 1'b1;
             end
             i = i + 1; // incrementa i
         end
         i = 0; // reseta i para uso futuro
     end
 endmodule
-\end{lstlisting}
+\end{minted}
+\end{block}
 
 Neste caso, o código tem a mesma função do exemplo anterior, mas utiliza a estrutura \texttt{while} para iterar sobre os bits da entrada. O circuito sintetizado será o mesmo, mas o uso de \texttt{for} é preferível em hardware descritivo, pois \texttt{while} pode gerar loops infinitos, além de ser mais verboso.
+\end{frame}
 
-\section*{Repeat}
+%------------------------------------------------
+\section{Repeat}
+%------------------------------------------------
 
+\begin{frame}
+    \Huge{\centerline{\textbf{Repeat}}}
+\end{frame}
+
+\begin{frame}[fragile]{Repeat}
 A estrutura \texttt{repeat} é utilizada para repetir um bloco de código um número específico de vezes. A sintaxe básica é:
 
-\begin{lstlisting}
+\begin{block}{Sintaxe}
+\begin{minted}{verilog}
 repeat (número_de_repeticoes) begin
     // codigo a ser executado
 end
-\end{lstlisting}
+\end{minted}
+\end{block}
 
 Exemplo:
+\end{frame}
 
-\begin{lstlisting}
+\begin{frame}[fragile]{Exemplo de Repeat}
+\begin{block}{Exemplo}
+\begin{minted}{verilog}
 repeat(10) begin
     clk = ~clk; // inverte o sinal do clock 10 vezes
 end
-\end{lstlisting}
+\end{minted}
+\end{block}
 
 O exemplo acima é um uso clássico de \texttt{repeat}, que é encorajado para testbenches, mas não é recomendado para circuitos sintetizáveis, pois o número de repetições deve ser conhecido em tempo de compilação. Se o valor passado para o \texttt{repeat} for uma variável, o sintetizador não conseguirá gerar o hardware corretamente.
+\end{frame}
 
-\section*{Forever}
+%------------------------------------------------
+\section{Forever}
+%------------------------------------------------
 
+\begin{frame}
+    \Huge{\centerline{\textbf{Forever}}}
+\end{frame}
+
+\begin{frame}[fragile]{Forever}
 A estrutura \texttt{forever} é utilizada para criar um loop infinito, que continuará executando até que seja interrompido por uma condição externa. A sintaxe básica é:
 
-\begin{lstlisting}
+\begin{block}{Sintaxe}
+\begin{minted}{verilog}
 forever begin
     // codigo a ser executado
 end
-\end{lstlisting}
+\end{minted}
+\end{block}
 
 \texttt{Forever} é utilizado \textbf{APENAS} em testbenches, pois em circuitos sintetizáveis, um loop infinito não faz sentido. Exemplo:
+\end{frame}
 
-\begin{lstlisting}
+\begin{frame}[fragile]{Exemplo de Forever}
+\begin{block}{Exemplo}
+\begin{minted}{verilog}
 forever begin
     clk = ~clk; // inverte o sinal do clock indefinidamente
     #5;         // espera 5 unidades de tempo
 end
-\end{lstlisting}
+\end{minted}
+\end{block}
+\end{frame}
 
+%------------------------------------------------
+\section{Initial}
+%------------------------------------------------
+
+\begin{frame}
+    \Huge{\centerline{\textbf{Initial}}}
+\end{frame}
+
+\begin{frame}[fragile]{Initial}
+A estrutura \texttt{initial} é utilizada para executar um bloco de código uma única vez no início da simulação. A sintaxe básica é:
+\begin{block}{Sintaxe}
+\begin{minted}{verilog}
+initial begin
+    // codigo a ser executado
+end
+\end{minted}
+\end{block}
+
+\texttt{Initial} é frequentemente utilizado em testbenches para definir condições iniciais ou gerar sinais de teste. Exemplo:
+\end{frame}
+
+\begin{frame}[fragile]{Exemplo de Initial}
+\begin{block}{Exemplo}
+\begin{minted}{verilog}
+initial begin
+    clk = 0; // inicializa o clock
+    reset = 1; // ativa o reset
+    #10 reset = 0; // desativa o reset após 10 unidades de tempo
+end
+\end{minted}
+\end{block}
+\end{frame}
 \end{document}
+%------------------------------------------------
