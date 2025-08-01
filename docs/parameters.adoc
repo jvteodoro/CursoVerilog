@@ -1,0 +1,75 @@
+= Parametrização e Parâmetros Nomeados ou Posicionais
+
+Na linguagem Verilog, o escopo das variáveis define onde uma variável pode ser acessada ou utilizada dentro do código.
+As variáveis podem ser do tipo `reg` ou `wire`, cada uma com regras específicas de uso.
+
+== Parâmetros na Instanciação de Módulos
+
+Os parâmetros são usados para definir valores constantes que podem ser utilizados em diferentes partes do código, como tamanhos de vetores, contadores, etc. 
+
+Eles são definidos usando a palavra-chave `parameter` e ajudam a tornar o código mais flexível e reutilizável.
+
+Durante a instanciação de módulos, esses parâmetros podem ser atribuídos de duas maneiras:
+
+- **Parâmetros posicionais**
+- **Parâmetros nomeados**
+
+Os parâmetros nomeados são geralmente mais legíveis e fáceis de entender, enquanto os posicionais são mais compactos.
+
+== Parâmetro Posicional
+
+Os parâmetros posicionais são definidos e passados na ordem em que aparecem na declaração do módulo.
+
+Por exemplo:
+
+[source,verilog]
+----
+module contador #(parameter N = 8, parameter M = 16) (
+    input clk,
+    output [N-1:0] out
+);
+// implementação
+endmodule
+----
+
+Na instanciação usando parâmetros posicionais:
+
+[source,verilog]
+----
+contador #(4, 10) contador_inst (
+    .clk(clk),
+    .out(out_signal)
+);
+----
+
+Nesse caso:
+- `N = 4`
+- `M = 10`
+
+== Parâmetro Nomeado
+
+Os parâmetros nomeados são definidos usando a sintaxe `nome_parametro = valor` durante a instanciação do módulo, o que permite maior clareza e independência da ordem de declaração.
+
+Exemplo:
+
+[source,verilog]
+----
+contador #(.M(10), .N(4)) contador_inst (
+    .clk(clk),
+    .out(out_signal)
+);
+----
+
+Mesmo com a ordem invertida, os valores corretos são atribuídos aos respectivos parâmetros.
+
+== Vantagens
+
+[cols="1,1",options="header"]
+|===
+| Parâmetro Posicional | Parâmetro Nomeado
+
+| Mais compacto | Mais legível
+| Exige atenção à ordem | Ordem dos parâmetros não importa
+| Propenso a erros com múltiplos parâmetros | Mais seguro em códigos maiores
+|===
+
